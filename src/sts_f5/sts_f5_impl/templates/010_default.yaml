@@ -1,0 +1,6 @@
+etl:
+  datasources:
+    - name: f5
+      module: sts_f5_impl.client
+      cls: F5Client
+      init: "F5Client(conf.f5, log)"

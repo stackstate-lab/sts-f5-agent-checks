@@ -1,0 +1,131 @@
+{
+  "kind": "tm:ltm:pool:poolcollectionstats",
+  "selfLink": "https://localhost/mgmt/tm/ltm/pool/stats?ver=16.1.3",
+  "entries": {
+    "https://localhost/mgmt/tm/ltm/pool/~Common~WebServers_Pool/stats": {
+      "nestedStats": {
+        "kind": "tm:ltm:pool:poolstats",
+        "selfLink": "https://localhost/mgmt/tm/ltm/pool/~Common~WebServers_Pool/stats?ver=16.1.3",
+        "entries": {
+          "activeMemberCnt": {
+            "value": 1
+          },
+          "availableMemberCnt": {
+            "value": 1
+          },
+          "connqAll.ageEdm": {
+            "value": 0
+          },
+          "connqAll.ageEma": {
+            "value": 0
+          },
+          "connqAll.ageHead": {
+            "value": 0
+          },
+          "connqAll.ageMax": {
+            "value": 0
+          },
+          "connqAll.depth": {
+            "value": 0
+          },
+          "connqAll.serviced": {
+            "value": 0
+          },
+          "connq.ageEdm": {
+            "value": 0
+          },
+          "connq.ageEma": {
+            "value": 0
+          },
+          "connq.ageHead": {
+            "value": 0
+          },
+          "connq.ageMax": {
+            "value": 0
+          },
+          "connq.depth": {
+            "value": 0
+          },
+          "connq.serviced": {
+            "value": 0
+          },
+          "curPriogrp": {
+            "value": 0
+          },
+          "curSessions": {
+            "value": 0
+          },
+          "highestPriogrp": {
+            "value": 0
+          },
+          "lowestPriogrp": {
+            "value": 0
+          },
+          "memberCnt": {
+            "value": 2
+          },
+          "minActiveMembers": {
+            "value": 0
+          },
+          "monitorRule": {
+            "description": "/Common/http"
+          },
+          "mr.msgIn": {
+            "value": 0
+          },
+          "mr.msgOut": {
+            "value": 0
+          },
+          "mr.reqIn": {
+            "value": 0
+          },
+          "mr.reqOut": {
+            "value": 0
+          },
+          "mr.respIn": {
+            "value": 0
+          },
+          "mr.respOut": {
+            "value": 0
+          },
+          "tmName": {
+            "description": "/Common/WebServers_Pool"
+          },
+          "serverside.bitsIn": {
+            "value": 128640
+          },
+          "serverside.bitsOut": {
+            "value": 0
+          },
+          "serverside.curConns": {
+            "value": 0
+          },
+          "serverside.maxConns": {
+            "value": 5
+          },
+          "serverside.pktsIn": {
+            "value": 300
+          },
+          "serverside.pktsOut": {
+            "value": 0
+          },
+          "serverside.totConns": {
+            "value": 60
+          },
+          "status.availabilityState": {
+            "description": "available"
+          },
+          "status.enabledState": {
+            "description": "enabled"
+          },
+          "status.statusReason": {
+            "description": "The pool is available"
+          },
+          "totRequests": {
+            "value": 0
+          }
+        }
+      }
+    }
+  }
+}

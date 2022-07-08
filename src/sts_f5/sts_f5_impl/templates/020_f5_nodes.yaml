@@ -1,0 +1,33 @@
+etl:
+  queries:
+    - name: f5_hosts
+      query: "f5.get_ltm_object('node')['items']"
+      template_refs:
+        - f5_host_template
+        - f5_host_health_template
+  template:
+    components:
+      - name: f5_host_template
+        spec:
+          name: "$.name"
+          type: "f5-node"
+          uid: "|uid('f5', 'node', item['name'])"
+          layer: "Machines"
+          identifiers:
+            - "|'urn:host:/%s' % item['name']"
+            - "|'urn:host:/%s' % item['address']"
+          labels:
+            - "|'address:%s' % item['address']"
+          custom_properties:
+            partition: "$.partition"
+            fullPath: "$.fullPath"
+            address: "$.address"
+            description: "$.description"
+    health:
+      - name: f5_host_health_template
+        spec:
+          check_id: "|'%s_online' % item['name']"
+          check_name: "NodeOnline"
+          topo_identifier: "|uid('f5', 'node', item['name'])"
+          health: "|'CLEAR' if item['state'] == 'up' else 'CRITICAL'"
+          message: "|'Node state is %s' % item['state']"

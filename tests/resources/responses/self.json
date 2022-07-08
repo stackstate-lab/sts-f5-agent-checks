@@ -1,0 +1,48 @@
+{
+  "kind": "tm:net:self:selfcollectionstate",
+  "selfLink": "https://localhost/mgmt/tm/net/self?ver=16.1.3",
+  "items": [
+    {
+      "kind": "tm:net:self:selfstate",
+      "name": "10.10.10.2",
+      "partition": "Common",
+      "fullPath": "/Common/10.10.10.2",
+      "generation": 438,
+      "selfLink": "https://localhost/mgmt/tm/net/self/~Common~10.10.10.2?ver=16.1.3",
+      "address": "10.10.10.2/24",
+      "addressSource": "from-user",
+      "floating": "disabled",
+      "inheritedTrafficGroup": "false",
+      "trafficGroup": "/Common/traffic-group-local-only",
+      "trafficGroupReference": {
+        "link": "https://localhost/mgmt/tm/cm/traffic-group/~Common~traffic-group-local-only?ver=16.1.3"
+      },
+      "unit": 0,
+      "vlan": "/Common/InternalVLAN",
+      "vlanReference": {
+        "link": "https://localhost/mgmt/tm/net/vlan/~Common~InternalVLAN?ver=16.1.3"
+      }
+    },
+    {
+      "kind": "tm:net:self:selfstate",
+      "name": "192.168.10.2",
+      "partition": "Common",
+      "fullPath": "/Common/192.168.10.2",
+      "generation": 437,
+      "selfLink": "https://localhost/mgmt/tm/net/self/~Common~192.168.10.2?ver=16.1.3",
+      "address": "192.168.10.2/24",
+      "addressSource": "from-user",
+      "floating": "disabled",
+      "inheritedTrafficGroup": "false",
+      "trafficGroup": "/Common/traffic-group-local-only",
+      "trafficGroupReference": {
+        "link": "https://localhost/mgmt/tm/cm/traffic-group/~Common~traffic-group-local-only?ver=16.1.3"
+      },
+      "unit": 0,
+      "vlan": "/Common/ExternalVLAN",
+      "vlanReference": {
+        "link": "https://localhost/mgmt/tm/net/vlan/~Common~ExternalVLAN?ver=16.1.3"
+      }
+    }
+  ]
+}

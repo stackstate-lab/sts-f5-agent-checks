@@ -1,0 +1,146 @@
+{
+  "kind": "tm:net:interface:interfacecollectionstats",
+  "selfLink": "https://localhost/mgmt/tm/net/interface/stats?ver=16.1.3",
+  "entries": {
+    "https://localhost/mgmt/tm/net/interface/1.1/stats": {
+      "nestedStats": {
+        "kind": "tm:net:interface:interfacestats",
+        "selfLink": "https://localhost/mgmt/tm/net/interface/1.1/stats?ver=16.1.3",
+        "entries": {
+          "counters.bitsIn": {
+            "value": 632096
+          },
+          "counters.bitsOut": {
+            "value": 142112
+          },
+          "counters.dropsAll": {
+            "value": 0
+          },
+          "counters.errorsAll": {
+            "value": 0
+          },
+          "counters.pktsIn": {
+            "value": 386
+          },
+          "counters.pktsOut": {
+            "value": 282
+          },
+          "mediaActive": {
+            "description": "10000T-FD"
+          },
+          "tmName": {
+            "description": "1.1"
+          },
+          "status": {
+            "description": "up"
+          }
+        }
+      }
+    },
+    "https://localhost/mgmt/tm/net/interface/1.2/stats": {
+      "nestedStats": {
+        "kind": "tm:net:interface:interfacestats",
+        "selfLink": "https://localhost/mgmt/tm/net/interface/1.2/stats?ver=16.1.3",
+        "entries": {
+          "counters.bitsIn": {
+            "value": 64937664
+          },
+          "counters.bitsOut": {
+            "value": 10546064
+          },
+          "counters.dropsAll": {
+            "value": 0
+          },
+          "counters.errorsAll": {
+            "value": 0
+          },
+          "counters.pktsIn": {
+            "value": 14480
+          },
+          "counters.pktsOut": {
+            "value": 22718
+          },
+          "mediaActive": {
+            "description": "10000T-FD"
+          },
+          "tmName": {
+            "description": "1.2"
+          },
+          "status": {
+            "description": "up"
+          }
+        }
+      }
+    },
+    "https://localhost/mgmt/tm/net/interface/1.3/stats": {
+      "nestedStats": {
+        "kind": "tm:net:interface:interfacestats",
+        "selfLink": "https://localhost/mgmt/tm/net/interface/1.3/stats?ver=16.1.3",
+        "entries": {
+          "counters.bitsIn": {
+            "value": 0
+          },
+          "counters.bitsOut": {
+            "value": 0
+          },
+          "counters.dropsAll": {
+            "value": 0
+          },
+          "counters.errorsAll": {
+            "value": 0
+          },
+          "counters.pktsIn": {
+            "value": 0
+          },
+          "counters.pktsOut": {
+            "value": 0
+          },
+          "mediaActive": {
+            "description": "none"
+          },
+          "tmName": {
+            "description": "1.3"
+          },
+          "status": {
+            "description": "uninit"
+          }
+        }
+      }
+    },
+    "https://localhost/mgmt/tm/net/interface/mgmt/stats": {
+      "nestedStats": {
+        "kind": "tm:net:interface:interfacestats",
+        "selfLink": "https://localhost/mgmt/tm/net/interface/mgmt/stats?ver=16.1.3",
+        "entries": {
+          "counters.bitsIn": {
+            "value": 54224664
+          },
+          "counters.bitsOut": {
+            "value": 106013048
+          },
+          "counters.dropsAll": {
+            "value": 0
+          },
+          "counters.errorsAll": {
+            "value": 0
+          },
+          "counters.pktsIn": {
+            "value": 20101
+          },
+          "counters.pktsOut": {
+            "value": 15697
+          },
+          "mediaActive": {
+            "description": "100TX-FD"
+          },
+          "tmName": {
+            "description": "mgmt"
+          },
+          "status": {
+            "description": "up"
+          }
+        }
+      }
+    }
+  }
+}

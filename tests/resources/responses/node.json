@@ -1,0 +1,56 @@
+{
+  "kind": "tm:ltm:node:nodecollectionstate",
+  "selfLink": "https://localhost/mgmt/tm/ltm/node?ver=16.1.3",
+  "items": [
+    {
+      "kind": "tm:ltm:node:nodestate",
+      "name": "10.10.10.22",
+      "partition": "Common",
+      "fullPath": "/Common/10.10.10.22",
+      "generation": 595,
+      "selfLink": "https://localhost/mgmt/tm/ltm/node/~Common~10.10.10.22?ver=16.1.3",
+      "address": "10.10.10.22",
+      "connectionLimit": 0,
+      "description": "Fake Server",
+      "dynamicRatio": 1,
+      "ephemeral": "false",
+      "fqdn": {
+        "addressFamily": "ipv4",
+        "autopopulate": "disabled",
+        "downInterval": 5,
+        "interval": "3600"
+      },
+      "logging": "disabled",
+      "monitor": "/Common/icmp",
+      "rateLimit": "disabled",
+      "ratio": 1,
+      "session": "monitor-enabled",
+      "state": "down"
+    },
+    {
+      "kind": "tm:ltm:node:nodestate",
+      "name": "server1",
+      "partition": "Common",
+      "fullPath": "/Common/server1",
+      "generation": 450,
+      "selfLink": "https://localhost/mgmt/tm/ltm/node/~Common~server1?ver=16.1.3",
+      "address": "10.10.10.20",
+      "connectionLimit": 0,
+      "description": "Realy server",
+      "dynamicRatio": 1,
+      "ephemeral": "false",
+      "fqdn": {
+        "addressFamily": "ipv4",
+        "autopopulate": "disabled",
+        "downInterval": 5,
+        "interval": "3600"
+      },
+      "logging": "enabled",
+      "monitor": "/Common/icmp",
+      "rateLimit": "disabled",
+      "ratio": 1,
+      "session": "monitor-enabled",
+      "state": "up"
+    }
+  ]
+}

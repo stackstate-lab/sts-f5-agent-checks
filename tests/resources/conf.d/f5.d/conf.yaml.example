@@ -1,0 +1,16 @@
+init_config:
+
+instances:
+  - instance_url: "f5"
+    instance_type: f5
+    collection_interval: 300
+    f5:
+      url: "https://172.16.253.200"
+      username: "admin"
+      password: "2zrRdQ8PYpK5Bsz"
+    domain: "F5"
+    layer: "Machines"
+    etl:
+      refs:
+        - "module_dir://sts_f5_impl.templates"
+

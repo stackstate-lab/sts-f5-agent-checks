@@ -1,0 +1,74 @@
+{
+  "kind": "tm:net:vlan:vlancollectionstate",
+  "selfLink": "https://localhost/mgmt/tm/net/vlan?ver=16.1.3",
+  "items": [
+    {
+      "kind": "tm:net:vlan:vlanstate",
+      "name": "ExternalVLAN",
+      "partition": "Common",
+      "fullPath": "/Common/ExternalVLAN",
+      "generation": 423,
+      "selfLink": "https://localhost/mgmt/tm/net/vlan/~Common~ExternalVLAN?ver=16.1.3",
+      "autoLasthop": "default",
+      "cmpHash": "default",
+      "dagRoundRobin": "disabled",
+      "dagTunnel": "outer",
+      "failsafe": "disabled",
+      "failsafeAction": "failover-restart-tm",
+      "failsafeTimeout": 90,
+      "fwdMode": "l3",
+      "hardwareSyncookie": "disabled",
+      "ifIndex": 144,
+      "learning": "enable-forward",
+      "mtu": 1500,
+      "sflow": {
+        "pollInterval": 0,
+        "pollIntervalGlobal": "no",
+        "samplingRate": 0,
+        "samplingRateGlobal": "no"
+      },
+      "sourceChecking": "disabled",
+      "synFloodRateLimit": 1000,
+      "syncacheThreshold": 6000,
+      "tag": 4094,
+      "interfacesReference": {
+        "link": "https://localhost/mgmt/tm/net/vlan/~Common~ExternalVLAN/interfaces?ver=16.1.3",
+        "isSubcollection": true
+      }
+    },
+    {
+      "kind": "tm:net:vlan:vlanstate",
+      "name": "InternalVLAN",
+      "partition": "Common",
+      "fullPath": "/Common/InternalVLAN",
+      "generation": 430,
+      "selfLink": "https://localhost/mgmt/tm/net/vlan/~Common~InternalVLAN?ver=16.1.3",
+      "autoLasthop": "default",
+      "cmpHash": "default",
+      "dagRoundRobin": "disabled",
+      "dagTunnel": "outer",
+      "failsafe": "disabled",
+      "failsafeAction": "failover-restart-tm",
+      "failsafeTimeout": 90,
+      "fwdMode": "l3",
+      "hardwareSyncookie": "disabled",
+      "ifIndex": 160,
+      "learning": "enable-forward",
+      "mtu": 1500,
+      "sflow": {
+        "pollInterval": 0,
+        "pollIntervalGlobal": "no",
+        "samplingRate": 0,
+        "samplingRateGlobal": "no"
+      },
+      "sourceChecking": "disabled",
+      "synFloodRateLimit": 1000,
+      "syncacheThreshold": 6000,
+      "tag": 4093,
+      "interfacesReference": {
+        "link": "https://localhost/mgmt/tm/net/vlan/~Common~InternalVLAN/interfaces?ver=16.1.3",
+        "isSubcollection": true
+      }
+    }
+  ]
+}

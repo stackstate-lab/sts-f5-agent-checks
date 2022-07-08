@@ -1,0 +1,37 @@
+{
+  "kind": "tm:ltm:pool:poolcollectionstate",
+  "selfLink": "https://localhost/mgmt/tm/ltm/pool?ver=16.1.3",
+  "items": [
+    {
+      "kind": "tm:ltm:pool:poolstate",
+      "name": "WebServers_Pool",
+      "partition": "Common",
+      "fullPath": "/Common/WebServers_Pool",
+      "generation": 597,
+      "selfLink": "https://localhost/mgmt/tm/ltm/pool/~Common~WebServers_Pool?ver=16.1.3",
+      "allowNat": "yes",
+      "allowSnat": "yes",
+      "ignorePersistedWeight": "disabled",
+      "ipTosToClient": "pass-through",
+      "ipTosToServer": "pass-through",
+      "linkQosToClient": "pass-through",
+      "linkQosToServer": "pass-through",
+      "loadBalancingMode": "round-robin",
+      "minActiveMembers": 0,
+      "minUpMembers": 0,
+      "minUpMembersAction": "failover",
+      "minUpMembersChecking": "disabled",
+      "monitor": "/Common/http",
+      "queueDepthLimit": 0,
+      "queueOnConnectionLimit": "disabled",
+      "queueTimeLimit": 0,
+      "reselectTries": 0,
+      "serviceDownAction": "none",
+      "slowRampTime": 10,
+      "membersReference": {
+        "link": "https://localhost/mgmt/tm/ltm/pool/~Common~WebServers_Pool/members?ver=16.1.3",
+        "isSubcollection": true
+      }
+    }
+  ]
+}

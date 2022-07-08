@@ -1,0 +1,5 @@
+RUN /opt/stackstate-agent/embedded/bin/pip install asteval==0.9.17 attrs==21.4.0 cachetools==3.1.1 \
+    certifi==2021.10.8 chardet==3.0.4 click==7.1.2 contextlib2==0.6.0.post1 decorator==4.4.2 idna==2.10 \
+    importlib-resources==3.3.1 jsonpath-ng==1.5.3 numpy==1.16.6 pandas==0.24.2 pathlib2==2.3.7.post1 pendulum==2.1.2 \
+    ply==3.11 pydash==4.9.3 python-dateutil==2.8.2 pytz==2022.1 pytzdata==2020.1 pyyaml==5.4.1 requests==2.25.0 \
+    scandir==1.10.0 schematics==2.1.1 singledispatch==3.7.0 six==1.16.0 typing==3.10.0.0 urllib3==1.22 zipp==1.2.0

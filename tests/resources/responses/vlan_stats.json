@@ -1,0 +1,304 @@
+{
+  "kind": "tm:net:vlan:vlancollectionstats",
+  "selfLink": "https://localhost/mgmt/tm/net/vlan/stats?ver=16.1.3",
+  "entries": {
+    "https://localhost/mgmt/tm/net/vlan/~Common~ExternalVLAN/stats": {
+      "nestedStats": {
+        "kind": "tm:net:vlan:vlanstats",
+        "selfLink": "https://localhost/mgmt/tm/net/vlan/~Common~ExternalVLAN/stats?ver=16.1.3",
+        "entries": {
+          "cVid": {
+            "description": " "
+          },
+          "id": {
+            "value": 4094
+          },
+          "ifname": {
+            "description": "ExternalVLAN"
+          },
+          "macTrue": {
+            "description": "00:0c:29:0b:b8:02"
+          },
+          "mtu": {
+            "value": 1500
+          },
+          "tmName": {
+            "description": "/Common/ExternalVLAN"
+          },
+          "https://localhost/mgmt/tm/net/vlan/~Common~ExternalVLAN/ifc_stat/stats": {
+            "nestedStats": {
+              "entries": {
+                "https://localhost/mgmt/tm/net/vlan/~Common~ExternalVLAN/ifc_stat/0/stats": {
+                  "nestedStats": {
+                    "entries": {
+                      "hcInBroadcastPkts": {
+                        "value": 15
+                      },
+                      "hcInMulticastPkts": {
+                        "value": 145
+                      },
+                      "hcInOctets": {
+                        "value": 125772
+                      },
+                      "hcInUcastPkts": {
+                        "value": 386
+                      },
+                      "hcOutBroadcastPkts": {
+                        "value": 39
+                      },
+                      "hcOutMulticastPkts": {
+                        "value": 160
+                      },
+                      "hcOutOctets": {
+                        "value": 63674
+                      },
+                      "hcOutUcastPkts": {
+                        "value": 232
+                      },
+                      "inDiscards": {
+                        "value": 0
+                      },
+                      "inErrors": {
+                        "value": 0
+                      },
+                      "inUnknownProtos": {
+                        "value": 0
+                      },
+                      "outDiscards": {
+                        "value": 5
+                      },
+                      "outErrors": {
+                        "value": 0
+                      },
+                      "pvaInOctets": {
+                        "value": 0
+                      },
+                      "pvaInPkts": {
+                        "value": 0
+                      },
+                      "pvaOutOctets": {
+                        "value": 0
+                      },
+                      "pvaOutPkts": {
+                        "value": 0
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "https://localhost/mgmt/tm/net/vlan/~Common~ExternalVLAN/members/stats": {
+            "nestedStats": {
+              "entries": {
+                "https://localhost/mgmt/tm/net/vlan/~Common~ExternalVLAN/members/1.1/stats": {
+                  "nestedStats": {
+                    "entries": {
+                      "tmName": {
+                        "description": "1.1"
+                      },
+                      "tagMode": {
+                        "description": "none"
+                      },
+                      "tagged": {
+                        "description": "no"
+                      },
+                      "https://localhost/mgmt/tm/net/vlan/~Common~ExternalVLAN/members/1.1/interfaces/stats": {
+                        "nestedStats": {
+                          "entries": {
+                            "https://localhost/mgmt/tm/net/vlan/~Common~ExternalVLAN/members/1.1/interfaces/1.1/stats": {
+                              "nestedStats": {
+                                "entries": {
+                                  "counters.bitsIn": {
+                                    "value": 632096
+                                  },
+                                  "counters.bitsOut": {
+                                    "value": 142112
+                                  },
+                                  "counters.dropsAll": {
+                                    "value": 0
+                                  },
+                                  "counters.errorsAll": {
+                                    "value": 0
+                                  },
+                                  "counters.pktsIn": {
+                                    "value": 386
+                                  },
+                                  "counters.pktsOut": {
+                                    "value": 282
+                                  },
+                                  "mediaActive": {
+                                    "description": "10000T-FD"
+                                  },
+                                  "tmName": {
+                                    "description": "1.1"
+                                  },
+                                  "status": {
+                                    "description": "up"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "https://localhost/mgmt/tm/net/vlan/~Common~InternalVLAN/stats": {
+      "nestedStats": {
+        "kind": "tm:net:vlan:vlanstats",
+        "selfLink": "https://localhost/mgmt/tm/net/vlan/~Common~InternalVLAN/stats?ver=16.1.3",
+        "entries": {
+          "cVid": {
+            "description": " "
+          },
+          "id": {
+            "value": 4093
+          },
+          "ifname": {
+            "description": "InternalVLAN"
+          },
+          "macTrue": {
+            "description": "00:0c:29:0b:b8:0c"
+          },
+          "mtu": {
+            "value": 1500
+          },
+          "tmName": {
+            "description": "/Common/InternalVLAN"
+          },
+          "https://localhost/mgmt/tm/net/vlan/~Common~InternalVLAN/ifc_stat/stats": {
+            "nestedStats": {
+              "entries": {
+                "https://localhost/mgmt/tm/net/vlan/~Common~InternalVLAN/ifc_stat/0/stats": {
+                  "nestedStats": {
+                    "entries": {
+                      "hcInBroadcastPkts": {
+                        "value": 7185
+                      },
+                      "hcInMulticastPkts": {
+                        "value": 119
+                      },
+                      "hcInOctets": {
+                        "value": 9355995
+                      },
+                      "hcInUcastPkts": {
+                        "value": 29271
+                      },
+                      "hcOutBroadcastPkts": {
+                        "value": 7476
+                      },
+                      "hcOutMulticastPkts": {
+                        "value": 131
+                      },
+                      "hcOutOctets": {
+                        "value": 9064822
+                      },
+                      "hcOutUcastPkts": {
+                        "value": 27679
+                      },
+                      "inDiscards": {
+                        "value": 0
+                      },
+                      "inErrors": {
+                        "value": 0
+                      },
+                      "inUnknownProtos": {
+                        "value": 0
+                      },
+                      "outDiscards": {
+                        "value": 3
+                      },
+                      "outErrors": {
+                        "value": 0
+                      },
+                      "pvaInOctets": {
+                        "value": 0
+                      },
+                      "pvaInPkts": {
+                        "value": 0
+                      },
+                      "pvaOutOctets": {
+                        "value": 0
+                      },
+                      "pvaOutPkts": {
+                        "value": 0
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "https://localhost/mgmt/tm/net/vlan/~Common~InternalVLAN/members/stats": {
+            "nestedStats": {
+              "entries": {
+                "https://localhost/mgmt/tm/net/vlan/~Common~InternalVLAN/members/1.2/stats": {
+                  "nestedStats": {
+                    "entries": {
+                      "tmName": {
+                        "description": "1.2"
+                      },
+                      "tagMode": {
+                        "description": "none"
+                      },
+                      "tagged": {
+                        "description": "no"
+                      },
+                      "https://localhost/mgmt/tm/net/vlan/~Common~InternalVLAN/members/1.2/interfaces/stats": {
+                        "nestedStats": {
+                          "entries": {
+                            "https://localhost/mgmt/tm/net/vlan/~Common~InternalVLAN/members/1.2/interfaces/1.2/stats": {
+                              "nestedStats": {
+                                "entries": {
+                                  "counters.bitsIn": {
+                                    "value": 64276800
+                                  },
+                                  "counters.bitsOut": {
+                                    "value": 10442672
+                                  },
+                                  "counters.dropsAll": {
+                                    "value": 0
+                                  },
+                                  "counters.errorsAll": {
+                                    "value": 0
+                                  },
+                                  "counters.pktsIn": {
+                                    "value": 14337
+                                  },
+                                  "counters.pktsOut": {
+                                    "value": 22495
+                                  },
+                                  "mediaActive": {
+                                    "description": "10000T-FD"
+                                  },
+                                  "tmName": {
+                                    "description": "1.2"
+                                  },
+                                  "status": {
+                                    "description": "up"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
