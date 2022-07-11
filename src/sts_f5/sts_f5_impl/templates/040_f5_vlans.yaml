@@ -1,0 +1,23 @@
+etl:
+  queries:
+    - name: f5_vlans
+      query: "f5.get_net_object('vlan', expand_subcollections=True)['items']"
+      template_refs:
+        - f5_vlan_template
+  template:
+    components:
+      - name: f5_vlan_template
+        spec:
+          name: "$.name"
+          type: "f5-vlan"
+          uid: "|uid('f5', 'vlan', item['name'])"
+          layer: "F5 VLAN"
+          custom_properties:
+            partition: "$.partition"
+            fullPath: "$.fullPath"
+          relations: |
+            relations = []
+            for interface in item["interfacesReference"]["items"]:
+              target_uid = uid('f5', 'interface', interface['name'])
+              relations.append(target_uid)
+            relations
