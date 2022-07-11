@@ -84,15 +84,15 @@ class F5Client(object):
         self.spec.url = pydash.strings.ensure_ends_with(spec.url, "/")
         self._session = self._init_session(spec)
 
-    def get(self, params, url):
+    def get(self, url, params):
         result = self._handle_failed_call(self._session.get(url, params=params)).json()
         return result
 
     def get_ltm_object(
-        self, object_type: str, params: Dict[str, Any] = None
+        self, object_type: str, expand_subcollections: bool = False, params: Dict[str, Any] = None
     ) -> Union[List[Dict[str, Any]], Dict[str, Any]]:
         url = self.get_ltm_type_url(object_type)
-        return self.get(params, url)
+        return self._get_f5_object(url, expand_subcollections, params)
 
     def get_ltm_object_stats(
         self, object_type: str, params: Dict[str, Any] = None
@@ -106,10 +106,10 @@ class F5Client(object):
         return self._get_object_stats(params, url)
 
     def get_net_object(
-        self, object_type: str, params: Dict[str, Any] = None
+        self, object_type: str, expand_subcollections: bool = False, params: Dict[str, Any] = None
     ) -> Union[List[Dict[str, Any]], Dict[str, Any]]:
         url = self.get_net_type_url(object_type)
-        return self.get(params, url)
+        return self._get_f5_object(url, expand_subcollections, params)
 
     def get_net_object_stats(
         self, object_type: str, params: Dict[str, Any] = None
@@ -132,8 +132,14 @@ class F5Client(object):
             raise Exception(f'Object type "{object_type}" is unknown.  Valid types are {NET_OBJECTS}')
         return f"{self.spec.url}mgmt/tm/net/{object_type}"
 
+    def _get_f5_object(self, url, expand_subcollections, params):
+        if expand_subcollections:
+            params = params if params is not None else {}
+            params["expandSubcollections"] = "true"
+        return self.get(url, params)
+
     def _get_object_stats(self, params, url):
-        response = self.get(params, url)
+        response = self.get(url, params)
         result = []
         for key, stats in response["entries"].items():
             nested_stats = stats["nestedStats"]
