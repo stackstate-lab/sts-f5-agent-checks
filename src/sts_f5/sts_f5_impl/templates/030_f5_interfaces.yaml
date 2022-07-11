@@ -1,0 +1,36 @@
+etl:
+  queries:
+    - name: f5_interfaces
+      query: "f5.get_net_object('interface')['items']"
+      template_refs:
+        - f5_interface_template
+    - name: f5_interfaces_status
+      query: "f5.get_net_object_stats('interface')"
+      template_refs:
+        - f5_interface_status_template
+  template:
+    components:
+      - name: f5_interface_template
+        spec:
+          name: "$.name"
+          type: "f5-interface"
+          uid: "|uid('f5', 'interface', item['name'])"
+          layer: "F5 Interfaces"
+          custom_properties:
+            macAddress: "$.macAddress"
+            enabled: "$.enabled"
+    health:
+      - name: f5_interface_status_template
+        spec:
+          check_id: "|'interface_%s_status' % item['name']"
+          check_name: "InterfaceUp"
+          topo_identifier: "|uid('f5', 'node', item['name'])"
+          health: |
+            src_status = item["entries"]["status"]["description"]
+            target_status = "CLEAR"
+            if src_status == "down":
+              target_status = "CRITICAL"
+            elif src_status == "uninit":
+              target_status = "DEVIATING"
+            target_status
+          message: "|'Interface state is %s' % jpath('$.entries.status.description')"

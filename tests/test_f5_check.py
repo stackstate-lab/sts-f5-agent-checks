@@ -35,9 +35,9 @@ def test_check(m: requests_mock.Mocker = None):
     snapshot = topology.get_snapshot("")
     components = snapshot["components"]
     relations = snapshot["relations"]
-    assert len(components) == 2, "Number of Components does not match"
+    assert len(components) == 6, "Number of Components does not match"
     assert len(relations) == 0, "Number of Relations does not match"
-    assert len(health_check_states) == 2, "Number of Health does not match"
+    assert len(health_check_states) == 6, "Number of Health does not match"
     assert len(metric_names) == 0, "Number of Metrics does not match"
 
     # host_uid = "urn:host:/karbon-stackstate-c9a026-k8s-master-0"
@@ -59,7 +59,7 @@ def _setup_request_mocks(instance, m):
     f5 = F5Client(instance.f5, logger)
 
     def register(method, object_type, is_net=False):
-        url = f5.get_net_object_type_url(object_type) if is_net else f5.get_object_type_url(object_type)
+        url = f5.get_net_type_url(object_type) if is_net else f5.get_ltm_type_url(object_type)
         m.register_uri(method, url, json=response(object_type))
         m.register_uri(method, f"{url}/stats", json=response(f"{object_type}_stats"))
 

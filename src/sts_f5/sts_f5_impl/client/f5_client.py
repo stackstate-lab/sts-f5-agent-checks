@@ -91,36 +91,60 @@ class F5Client(object):
     def get_ltm_object(
         self, object_type: str, params: Dict[str, Any] = None
     ) -> Union[List[Dict[str, Any]], Dict[str, Any]]:
-        url = self.get_object_type_url(object_type)
+        url = self.get_ltm_type_url(object_type)
         return self.get(params, url)
 
-    def get_ltm_stats(
+    def get_ltm_object_stats(
         self, object_type: str, params: Dict[str, Any] = None
     ) -> Union[List[Dict[str, Any]], Dict[str, Any]]:
-        url = f"{self.get_object_type_url(object_type)}/stats"
-        return self.get(params, url)
+        """
+        :param object_type: str Any object in the LTM_OBJECTS list
+        :param params: Dict[str, Any] Additional query paramaters
+        :return: List[Dict[str, Any]] Returns the 'nestedstats' object with object name and partition
+        """
+        url = f"{self.get_ltm_type_url(object_type)}/stats"
+        return self._get_object_stats(params, url)
 
     def get_net_object(
         self, object_type: str, params: Dict[str, Any] = None
     ) -> Union[List[Dict[str, Any]], Dict[str, Any]]:
-        url = self.get_net_object_type_url(object_type)
+        url = self.get_net_type_url(object_type)
         return self.get(params, url)
 
-    def get_net_stats(
+    def get_net_object_stats(
         self, object_type: str, params: Dict[str, Any] = None
     ) -> Union[List[Dict[str, Any]], Dict[str, Any]]:
-        url = f"{self.get_net_object(object_type)}/stats"
-        return self.get(params, url)
+        """
+        :param object_type: str Any object in the NET_OBJECTS list
+        :param params: Dict[str, Any] Additional query paramaters
+        :return: List[Dict[str, Any]] Returns the 'nestedstats' object with object name and partition
+        """
+        url = f"{self.get_net_type_url(object_type)}/stats"
+        return self._get_object_stats(params, url)
 
-    def get_object_type_url(self, object_type: str):
+    def get_ltm_type_url(self, object_type: str):
         if object_type not in LTM_OBJECTS:
             raise Exception(f'Object type "{object_type}" is unknown.  Valid types are {LTM_OBJECTS}')
         return f"{self.spec.url}mgmt/tm/ltm/{object_type}"
 
-    def get_net_object_type_url(self, object_type: str):
+    def get_net_type_url(self, object_type: str):
         if object_type not in NET_OBJECTS:
             raise Exception(f'Object type "{object_type}" is unknown.  Valid types are {NET_OBJECTS}')
         return f"{self.spec.url}mgmt/tm/net/{object_type}"
+
+    def _get_object_stats(self, params, url):
+        response = self.get(params, url)
+        result = []
+        for key, stats in response["entries"].items():
+            nested_stats = stats["nestedStats"]
+            name = key.split("/")[-2]
+            if name.startswith("~"):
+                parts = name[1:].split("~")
+                nested_stats["partition"] = parts[0]
+                name = parts[1]
+            nested_stats["name"] = name
+            result.append(nested_stats)
+        return result
 
     def _init_session(self, spec: F5Spec) -> requests.Session:
         retry = Retry(
