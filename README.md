@@ -63,6 +63,7 @@ sudo -u stackstate-agent stackstate-agent check f5 -l info
 APIs to syn data from, 
 
 - [icontrol-rest-api-user-guide-15-1-0.pdf](https://cdn.f5.com/websites/devcentral.f5.com/downloads/icontrol-rest-api-user-guide-15-1-0.pdf)
+  - Refer to page 24/25 for information on query parameters like $select, $filter, pagination
 - [Common iControl REST API command examples](https://support.f5.com/csp/article/K13225405)
 
 
