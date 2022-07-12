@@ -1,0 +1,47 @@
+{
+  "kind": "tm:cm:device:devicecollectionstats",
+  "selfLink": "https://localhost/mgmt/tm/cm/device/stats?ver=16.1.3",
+  "entries": {
+    "https://localhost/mgmt/tm/cm/device/~Common~bigip1.local.net/stats": {
+      "nestedStats": {
+        "kind": "tm:cm:device:devicestats",
+        "selfLink": "https://localhost/mgmt/tm/cm/device/~Common~bigip1.local.net/stats?ver=16.1.3",
+        "entries": {
+          "alternateIp": {
+            "description": "None"
+          },
+          "configsyncIp": {
+            "description": "::"
+          },
+          "deviceStatus": {
+            "description": "-"
+          },
+          "hostname": {
+            "description": "bigip1.local.net"
+          },
+          "managementIp": {
+            "description": "172.16.253.200"
+          },
+          "mirrorIp": {
+            "description": "::"
+          },
+          "mirrorSecondaryIp": {
+            "description": "::"
+          },
+          "multicastAddr": {
+            "description": "::"
+          },
+          "tmName": {
+            "description": "/Common/bigip1.local.net"
+          },
+          "timeDeltaCurrentDevice": {
+            "description": "-"
+          },
+          "unicastAddr": {
+            "description": "-"
+          }
+        }
+      }
+    }
+  }
+}

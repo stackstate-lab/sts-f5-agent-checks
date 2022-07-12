@@ -52,24 +52,34 @@ def test_check(m: requests_mock.Mocker = None):
 
 def _setup_request_mocks(instance, m):
     def response(file_name):
+        file_name = file_name.replace("-", "_")
         with open(f"tests/resources/responses/{file_name}.json") as f:
             return json.load(f)
 
     m.register_uri("POST", f"{instance.f5.url}/mgmt/shared/authn/login", json=response("authn_login"))
     f5 = F5Client(instance.f5, logger)
 
-    def register(method, object_type, is_net=False):
-        url = f5.get_net_type_url(object_type) if is_net else f5.get_ltm_type_url(object_type)
+    def register(method, object_type, path="ltm"):
+        if path == "net":
+            url = f5.get_net_type_url(object_type)
+        elif path == "cm":
+            url = f5.get_cm_type_url(object_type)
+        else:
+            url = f5.get_ltm_type_url(object_type)
         m.register_uri(method, url, json=response(object_type))
         m.register_uri(method, f"{url}/stats", json=response(f"{object_type}_stats"))
 
     endpoints = [
-        ("GET", "interface", True),
+        ("GET", "interface", "net"),
         ("GET", "node"),
         ("GET", "pool"),
-        ("GET", "self", True),
+        ("GET", "rule"),
+        ("GET", "self", "net"),
         ("GET", "virtual"),
-        ("GET", "vlan", True),
+        ("GET", "vlan", "net"),
+        ("GET", "device", "cm"),
+        ("GET", "device-group", "cm"),
+        ("GET", "traffic-group", "cm"),
     ]
 
     for endpoint in endpoints:

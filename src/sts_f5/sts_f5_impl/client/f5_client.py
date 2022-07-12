@@ -8,6 +8,15 @@ from requests.structures import CaseInsensitiveDict
 from sts_f5_impl.model.instance import F5Spec
 from urllib3.util import Retry
 
+CM_OBJECTS = [
+    "cert",
+    "device",
+    "device-group",
+    "key",
+    "traffic-group",
+    "trust-domain"
+]
+
 LTM_OBJECTS = [
     "auth",
     "cipher",
@@ -121,6 +130,28 @@ class F5Client(object):
         """
         url = f"{self.get_net_type_url(object_type)}/stats"
         return self._get_object_stats(params, url)
+
+    def get_cm_object(
+            self, object_type: str, expand_subcollections: bool = False, params: Dict[str, Any] = None
+    ) -> Union[List[Dict[str, Any]], Dict[str, Any]]:
+        url = self.get_cm_type_url(object_type)
+        return self._get_f5_object(url, expand_subcollections, params)
+
+    def get_cm_object_stats(
+            self, object_type: str, params: Dict[str, Any] = None
+    ) -> Union[List[Dict[str, Any]], Dict[str, Any]]:
+        """
+        :param object_type: str Any object in the CM_OBJECTS list
+        :param params: Dict[str, Any] Additional query paramaters
+        :return: List[Dict[str, Any]] Returns the 'nestedstats' object with object name and partition
+        """
+        url = f"{self.get_cm_type_url(object_type)}/stats"
+        return self._get_object_stats(params, url)
+
+    def get_cm_type_url(self, object_type: str):
+        if object_type not in CM_OBJECTS:
+            raise Exception(f'Object type "{object_type}" is unknown.  Valid types are {CM_OBJECTS}')
+        return f"{self.spec.url}mgmt/tm/cm/{object_type}"
 
     def get_ltm_type_url(self, object_type: str):
         if object_type not in LTM_OBJECTS:

@@ -1,0 +1,84 @@
+{
+  "kind": "tm:cm:traffic-group:traffic-groupcollectionstats",
+  "selfLink": "https://localhost/mgmt/tm/cm/traffic-group/stats?ver=16.1.3",
+  "entries": {
+    "https://localhost/mgmt/tm/cm/traffic-group/~Common~traffic-group-1:~Common~bigip1.local.net/stats": {
+      "nestedStats": {
+        "kind": "tm:cm:traffic-group:traffic-groupstats",
+        "selfLink": "https://localhost/mgmt/tm/cm/traffic-group/~Common~traffic-group-1:~Common~bigip1.local.net/stats?ver=16.1.3",
+        "entries": {
+          "activeReason": {
+            "description": "-"
+          },
+          "deviceName": {
+            "description": "/Common/bigip1.local.net"
+          },
+          "failoverState": {
+            "description": "active"
+          },
+          "nextActive": {
+            "description": "false"
+          },
+          "previousActive": {
+            "description": "false"
+          },
+          "trafficGroup": {
+            "description": "/Common/traffic-group-1"
+          }
+        }
+      }
+    },
+    "https://localhost/mgmt/tm/cm/traffic-group/~Common~traffic-group-2:~Common~bigip1.local.net/stats": {
+      "nestedStats": {
+        "kind": "tm:cm:traffic-group:traffic-groupstats",
+        "selfLink": "https://localhost/mgmt/tm/cm/traffic-group/~Common~traffic-group-2:~Common~bigip1.local.net/stats?ver=16.1.3",
+        "entries": {
+          "activeReason": {
+            "description": "-"
+          },
+          "deviceName": {
+            "description": "/Common/bigip1.local.net"
+          },
+          "failoverState": {
+            "description": "active"
+          },
+          "nextActive": {
+            "description": "false"
+          },
+          "previousActive": {
+            "description": "false"
+          },
+          "trafficGroup": {
+            "description": "/Common/traffic-group-2"
+          }
+        }
+      }
+    },
+    "https://localhost/mgmt/tm/cm/traffic-group/~Common~traffic-group-local-only:-/stats": {
+      "nestedStats": {
+        "kind": "tm:cm:traffic-group:traffic-groupstats",
+        "selfLink": "https://localhost/mgmt/tm/cm/traffic-group/~Common~traffic-group-local-only:-/stats?ver=16.1.3",
+        "entries": {
+          "activeReason": {
+            "description": "-"
+          },
+          "deviceName": {
+            "description": "-"
+          },
+          "failoverState": {
+            "description": "-"
+          },
+          "nextActive": {
+            "description": "-"
+          },
+          "previousActive": {
+            "description": "-"
+          },
+          "trafficGroup": {
+            "description": "/Common/traffic-group-local-only"
+          }
+        }
+      }
+    }
+  }
+}

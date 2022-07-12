@@ -1,0 +1,47 @@
+{
+  "kind": "tm:cm:device:devicecollectionstate",
+  "selfLink": "https://localhost/mgmt/tm/cm/device?ver=16.1.3",
+  "items": [
+    {
+      "kind": "tm:cm:device:devicestate",
+      "name": "bigip1.local.net",
+      "partition": "Common",
+      "fullPath": "/Common/bigip1.local.net",
+      "generation": 136,
+      "selfLink": "https://localhost/mgmt/tm/cm/device/~Common~bigip1.local.net?ver=16.1.3",
+      "activeModules": [
+        "BIG-IP, VE Trial|XVZPFYN-WSLPMLA|Rate Shaping|External Interface and Network HSM, VE|SDN Services, VE|SSL, Forward Proxy, VE|BIG-IP VE, Multicast Routing|APM, Limited|SSL, VE|DNS (1K QPS), VE|Routing Bundle, VE|ASM, VE|Crytpo Offload, VE, Tier 1 (25M - 200M)|Max Compression, VE|AFM, VE|Advanced Web Application Firewall, VE|DNSSEC|Anti-Virus Checks|Base Endpoint Security Checks|Firewall Checks|Network Access|Secure Virtual Keyboard|APM, Web Application|Machine Certificate Checks|Protected Workspace|Remote Desktop|App Tunnel|VE, Carrier Grade NAT (AFM ONLY)|PSM, VE"
+      ],
+      "alternateIp": "none",
+      "baseMac": "00:0c:29:0b:b8:f8",
+      "build": "0.0.12",
+      "cert": "/Common/dtdi.crt",
+      "certReference": {
+        "link": "https://localhost/mgmt/tm/cm/cert/~Common~dtdi.crt?ver=16.1.3"
+      },
+      "chassisId": "564d9c01-362d-9aab-3558d10bb8f8",
+      "chassisType": "individual",
+      "configsyncIp": "none",
+      "edition": "Final",
+      "failoverState": "active",
+      "haCapacity": 0,
+      "hostname": "bigip1.local.net",
+      "key": "/Common/dtdi.key",
+      "keyReference": {
+        "link": "https://localhost/mgmt/tm/cm/key/~Common~dtdi.key?ver=16.1.3"
+      },
+      "managementIp": "172.16.253.200",
+      "marketingName": "BIG-IP Virtual Edition",
+      "mgmtUnicastMode": "both",
+      "mirrorIp": "any6",
+      "mirrorSecondaryIp": "any6",
+      "multicastIp": "any6",
+      "multicastPort": 0,
+      "platformId": "Z100",
+      "product": "BIG-IP",
+      "selfDevice": "true",
+      "timeZone": "America/Los_Angeles",
+      "version": "16.1.3"
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "kind": "tm:cm:device-group:device-groupcollectionstate",
+  "selfLink": "https://localhost/mgmt/tm/cm/device-group?ver=16.1.3",
+  "items": [
+    {
+      "kind": "tm:cm:device-group:device-groupstate",
+      "name": "device_trust_group",
+      "partition": "Common",
+      "fullPath": "/Common/device_trust_group",
+      "generation": 136,
+      "selfLink": "https://localhost/mgmt/tm/cm/device-group/~Common~device_trust_group?ver=16.1.3",
+      "asmSync": "disabled",
+      "autoSync": "enabled",
+      "fullLoadOnSync": "false",
+      "incrementalConfigSyncSizeMax": 1024,
+      "networkFailover": "disabled",
+      "saveOnAutoSync": "false",
+      "type": "sync-only",
+      "devicesReference": {
+        "link": "https://localhost/mgmt/tm/cm/device-group/~Common~device_trust_group/devices?ver=16.1.3",
+        "isSubcollection": true
+      }
+    },
+    {
+      "kind": "tm:cm:device-group:device-groupstate",
+      "name": "gtm",
+      "partition": "Common",
+      "fullPath": "/Common/gtm",
+      "generation": 136,
+      "selfLink": "https://localhost/mgmt/tm/cm/device-group/~Common~gtm?ver=16.1.3",
+      "asmSync": "disabled",
+      "autoSync": "disabled",
+      "fullLoadOnSync": "false",
+      "incrementalConfigSyncSizeMax": 1024,
+      "networkFailover": "disabled",
+      "saveOnAutoSync": "false",
+      "type": "sync-only",
+      "devicesReference": {
+        "link": "https://localhost/mgmt/tm/cm/device-group/~Common~gtm/devices?ver=16.1.3",
+        "isSubcollection": true
+      }
+    },
+    {
+      "kind": "tm:cm:device-group:device-groupstate",
+      "name": "my-device-group-failover",
+      "partition": "Common",
+      "fullPath": "/Common/my-device-group-failover",
+      "generation": 605,
+      "selfLink": "https://localhost/mgmt/tm/cm/device-group/~Common~my-device-group-failover?ver=16.1.3",
+      "asmSync": "disabled",
+      "autoSync": "enabled",
+      "fullLoadOnSync": "false",
+      "incrementalConfigSyncSizeMax": 1024,
+      "networkFailover": "enabled",
+      "saveOnAutoSync": "false",
+      "type": "sync-failover",
+      "devicesReference": {
+        "link": "https://localhost/mgmt/tm/cm/device-group/~Common~my-device-group-failover/devices?ver=16.1.3",
+        "isSubcollection": true
+      }
+    }
+  ]
+}
