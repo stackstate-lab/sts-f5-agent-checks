@@ -1,0 +1,24 @@
+etl:
+  queries:
+    - name: f5_devices
+      query: "f5.get_cm_object('device')['items']"
+      template_refs:
+        - f5_device_template
+  template:
+    components:
+      - name: f5_device_template
+        spec:
+          name: "$.name"
+          type: "f5-device"
+          uid: "|uid('f5', 'device', item['name'])"
+          layer: "F5 Devices"
+          identifiers:
+            - "|uid('f5', 'device:ip', item['managementIp'])"
+          custom_properties:
+            activeModules: "$.activeModules"
+            hostname: "$.hostname"
+            managementIp: "$.managementIp"
+            timeZone: "$.timeZone"
+            cert: "$.cert"
+            marketingName: "$.marketingName"
+            version: "|'%s v%s (Build %s)' % (item['product'], item['version'], item['build'])"

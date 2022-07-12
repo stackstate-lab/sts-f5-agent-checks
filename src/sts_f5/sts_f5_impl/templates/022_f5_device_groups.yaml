@@ -1,0 +1,23 @@
+etl:
+  queries:
+    - name: f5_device_groups
+      query: "f5.get_cm_object('device-group', expand_subcollections=True)['items']"
+      template_refs:
+        - f5_device_group_template
+  template:
+    components:
+      - name: f5_device_group_template
+        spec:
+          name: "$.name"
+          type: "f5-device-group"
+          uid: "|uid('f5', 'device:group', item['name'])"
+          layer: "F5 Device Groups"
+          relations: |
+            relations = []
+            for device in item["devicesReference"]["items"]:
+              target_uid = uid('f5', 'device', device['name'])
+              relations.append(target_uid)
+            relations
+          custom_properties:
+            partition: "$.partition"
+            type: "$.type"
