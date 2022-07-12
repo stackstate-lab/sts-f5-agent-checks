@@ -35,8 +35,8 @@ def test_check(m: requests_mock.Mocker = None):
     snapshot = topology.get_snapshot("")
     components = snapshot["components"]
     relations = snapshot["relations"]
-    assert len(components) == 8, "Number of Components does not match"
-    assert len(relations) == 2, "Number of Relations does not match"
+    assert len(components) == 12, "Number of Components does not match"
+    assert len(relations) == 5, "Number of Relations does not match"
     assert len(health_check_states) == 6, "Number of Health does not match"
     assert len(metric_names) == 0, "Number of Metrics does not match"
 
@@ -73,6 +73,8 @@ def _setup_request_mocks(instance, m):
         ("GET", "interface", "net"),
         ("GET", "node"),
         ("GET", "pool"),
+        ("GET", "snat"),
+        ("GET", "snatpool"),
         ("GET", "rule"),
         ("GET", "self", "net"),
         ("GET", "virtual"),

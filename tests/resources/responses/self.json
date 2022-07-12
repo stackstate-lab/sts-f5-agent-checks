@@ -4,6 +4,27 @@
   "items": [
     {
       "kind": "tm:net:self:selfstate",
+      "name": "10.10.10.41",
+      "partition": "Common",
+      "fullPath": "/Common/10.10.10.41",
+      "generation": 613,
+      "selfLink": "https://localhost/mgmt/tm/net/self/~Common~10.10.10.41?ver=16.1.3",
+      "address": "10.10.10.41/24",
+      "addressSource": "from-user",
+      "floating": "enabled",
+      "inheritedTrafficGroup": "false",
+      "trafficGroup": "/Common/traffic-group-2",
+      "trafficGroupReference": {
+        "link": "https://localhost/mgmt/tm/cm/traffic-group/~Common~traffic-group-2?ver=16.1.3"
+      },
+      "unit": 2,
+      "vlan": "/Common/InternalVLAN",
+      "vlanReference": {
+        "link": "https://localhost/mgmt/tm/net/vlan/~Common~InternalVLAN?ver=16.1.3"
+      }
+    },
+    {
+      "kind": "tm:net:self:selfstate",
       "name": "10.10.10.2",
       "partition": "Common",
       "fullPath": "/Common/10.10.10.2",

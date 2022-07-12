@@ -1,0 +1,28 @@
+{
+  "kind": "tm:ltm:snat:snatcollectionstate",
+  "selfLink": "https://localhost/mgmt/tm/ltm/snat?ver=16.1.3",
+  "items": [
+    {
+      "kind": "tm:ltm:snat:snatstate",
+      "name": "TEST_SNAT_POOL_LIST",
+      "partition": "Common",
+      "fullPath": "/Common/TEST_SNAT_POOL_LIST",
+      "generation": 615,
+      "selfLink": "https://localhost/mgmt/tm/ltm/snat/~Common~TEST_SNAT_POOL_LIST?ver=16.1.3",
+      "autoLasthop": "default",
+      "mirror": "disabled",
+      "snatpool": "/Common/TEST_SNAT_POOL",
+      "snatpoolReference": {
+        "link": "https://localhost/mgmt/tm/ltm/snatpool/~Common~TEST_SNAT_POOL?ver=16.1.3"
+      },
+      "sourcePort": "preserve",
+      "vlansDisabled": true,
+      "origins": [
+        {
+          "name": "192.168.10.21/32",
+          "listenerSyncookie": "enabled"
+        }
+      ]
+    }
+  ]
+}

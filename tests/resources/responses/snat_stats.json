@@ -1,0 +1,38 @@
+{
+  "kind": "tm:ltm:snat:snatcollectionstats",
+  "selfLink": "https://localhost/mgmt/tm/ltm/snat/stats?ver=16.1.3",
+  "entries": {
+    "https://localhost/mgmt/tm/ltm/snat/~Common~TEST_SNAT_POOL_LIST/stats": {
+      "nestedStats": {
+        "kind": "tm:ltm:snat:snatstats",
+        "selfLink": "https://localhost/mgmt/tm/ltm/snat/~Common~TEST_SNAT_POOL_LIST/stats?ver=16.1.3",
+        "entries": {
+          "clientside.bitsIn": {
+            "value": 0
+          },
+          "clientside.bitsOut": {
+            "value": 0
+          },
+          "clientside.curConns": {
+            "value": 0
+          },
+          "clientside.maxConns": {
+            "value": 0
+          },
+          "clientside.pktsIn": {
+            "value": 0
+          },
+          "clientside.pktsOut": {
+            "value": 0
+          },
+          "clientside.totConns": {
+            "value": 0
+          },
+          "tmName": {
+            "description": "/Common/TEST_SNAT_POOL_LIST"
+          }
+        }
+      }
+    }
+  }
+}

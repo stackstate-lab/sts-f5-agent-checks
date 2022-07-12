@@ -1,6 +1,6 @@
 {
   "kind": "tm:cm:device-group:device-groupcollectionstate",
-  "selfLink": "https://localhost/mgmt/tm/cm/device-group?ver=16.1.3",
+  "selfLink": "https://localhost/mgmt/tm/cm/device-group?expandSubcollections=true&ver=16.1.3",
   "items": [
     {
       "kind": "tm:cm:device-group:device-groupstate",
@@ -18,7 +18,20 @@
       "type": "sync-only",
       "devicesReference": {
         "link": "https://localhost/mgmt/tm/cm/device-group/~Common~device_trust_group/devices?ver=16.1.3",
-        "isSubcollection": true
+        "isSubcollection": true,
+        "items": [
+          {
+            "kind": "tm:cm:device-group:devices:devicesstate",
+            "name": "bigip1.local.net",
+            "partition": "Common",
+            "fullPath": "/Common/bigip1.local.net",
+            "generation": 136,
+            "selfLink": "https://localhost/mgmt/tm/cm/device-group/~Common~device_trust_group/devices/~Common~bigip1.local.net?ver=16.1.3",
+            "nameReference": {
+              "link": "https://localhost/mgmt/tm/cm/device/~Common~bigip1.local.net?ver=16.1.3"
+            }
+          }
+        ]
       }
     },
     {
@@ -37,7 +50,20 @@
       "type": "sync-only",
       "devicesReference": {
         "link": "https://localhost/mgmt/tm/cm/device-group/~Common~gtm/devices?ver=16.1.3",
-        "isSubcollection": true
+        "isSubcollection": true,
+        "items": [
+          {
+            "kind": "tm:cm:device-group:devices:devicesstate",
+            "name": "bigip1.local.net",
+            "partition": "Common",
+            "fullPath": "/Common/bigip1.local.net",
+            "generation": 136,
+            "selfLink": "https://localhost/mgmt/tm/cm/device-group/~Common~gtm/devices/~Common~bigip1.local.net?ver=16.1.3",
+            "nameReference": {
+              "link": "https://localhost/mgmt/tm/cm/device/~Common~bigip1.local.net?ver=16.1.3"
+            }
+          }
+        ]
       }
     },
     {
@@ -56,7 +82,20 @@
       "type": "sync-failover",
       "devicesReference": {
         "link": "https://localhost/mgmt/tm/cm/device-group/~Common~my-device-group-failover/devices?ver=16.1.3",
-        "isSubcollection": true
+        "isSubcollection": true,
+        "items": [
+          {
+            "kind": "tm:cm:device-group:devices:devicesstate",
+            "name": "bigip1.local.net",
+            "partition": "Common",
+            "fullPath": "/Common/bigip1.local.net",
+            "generation": 605,
+            "selfLink": "https://localhost/mgmt/tm/cm/device-group/~Common~my-device-group-failover/devices/~Common~bigip1.local.net?ver=16.1.3",
+            "nameReference": {
+              "link": "https://localhost/mgmt/tm/cm/device/~Common~bigip1.local.net?ver=16.1.3"
+            }
+          }
+        ]
       }
     }
   ]

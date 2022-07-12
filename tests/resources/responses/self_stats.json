@@ -59,10 +59,10 @@
                                           "nestedStats": {
                                             "entries": {
                                               "counters.bitsIn": {
-                                                "value": 65562792
+                                                "value": 84200680
                                               },
                                               "counters.bitsOut": {
-                                                "value": 10644280
+                                                "value": 19404624
                                               },
                                               "counters.dropsAll": {
                                                 "value": 0
@@ -71,10 +71,114 @@
                                                 "value": 0
                                               },
                                               "counters.pktsIn": {
-                                                "value": 14617
+                                                "value": 18895
                                               },
                                               "counters.pktsOut": {
-                                                "value": 22930
+                                                "value": 46673
+                                              },
+                                              "mediaActive": {
+                                                "description": "10000T-FD"
+                                              },
+                                              "tmName": {
+                                                "description": "1.2"
+                                              },
+                                              "status": {
+                                                "description": "up"
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "https://localhost/mgmt/tm/net/self/~Common~10.10.10.41/stats": {
+      "nestedStats": {
+        "kind": "tm:net:self:selfstats",
+        "selfLink": "https://localhost/mgmt/tm/net/self/~Common~10.10.10.41/stats?ver=16.1.3",
+        "entries": {
+          "tmName": {
+            "description": "/Common/10.10.10.41"
+          },
+          "typeId": {
+            "description": "net self"
+          },
+          "https://localhost/mgmt/tm/net/self/~Common~10.10.10.41/vlans/stats": {
+            "nestedStats": {
+              "entries": {
+                "https://localhost/mgmt/tm/net/self/~Common~10.10.10.41/vlans/~Common~InternalVLAN/stats": {
+                  "nestedStats": {
+                    "entries": {
+                      "cVid": {
+                        "description": " "
+                      },
+                      "id": {
+                        "value": 4093
+                      },
+                      "ifname": {
+                        "description": "InternalVLAN"
+                      },
+                      "macTrue": {
+                        "description": "00:0c:29:0b:b8:0c"
+                      },
+                      "mtu": {
+                        "value": 1500
+                      },
+                      "tmName": {
+                        "description": "/Common/InternalVLAN"
+                      },
+                      "https://localhost/mgmt/tm/net/self/~Common~10.10.10.41/vlans/~Common~InternalVLAN/members/stats": {
+                        "nestedStats": {
+                          "entries": {
+                            "https://localhost/mgmt/tm/net/self/~Common~10.10.10.41/vlans/~Common~InternalVLAN/members/1.2/stats": {
+                              "nestedStats": {
+                                "entries": {
+                                  "tmName": {
+                                    "description": "1.2"
+                                  },
+                                  "tagMode": {
+                                    "description": "none"
+                                  },
+                                  "tagged": {
+                                    "description": "no"
+                                  },
+                                  "https://localhost/mgmt/tm/net/self/~Common~10.10.10.41/vlans/~Common~InternalVLAN/members/1.2/interfaces/stats": {
+                                    "nestedStats": {
+                                      "entries": {
+                                        "https://localhost/mgmt/tm/net/self/~Common~10.10.10.41/vlans/~Common~InternalVLAN/members/1.2/interfaces/1.2/stats": {
+                                          "nestedStats": {
+                                            "entries": {
+                                              "counters.bitsIn": {
+                                                "value": 84200680
+                                              },
+                                              "counters.bitsOut": {
+                                                "value": 19404624
+                                              },
+                                              "counters.dropsAll": {
+                                                "value": 0
+                                              },
+                                              "counters.errorsAll": {
+                                                "value": 0
+                                              },
+                                              "counters.pktsIn": {
+                                                "value": 18895
+                                              },
+                                              "counters.pktsOut": {
+                                                "value": 46673
                                               },
                                               "mediaActive": {
                                                 "description": "10000T-FD"
@@ -163,10 +267,10 @@
                                           "nestedStats": {
                                             "entries": {
                                               "counters.bitsIn": {
-                                                "value": 632096
+                                                "value": 2005288
                                               },
                                               "counters.bitsOut": {
-                                                "value": 142112
+                                                "value": 143792
                                               },
                                               "counters.dropsAll": {
                                                 "value": 0
@@ -175,10 +279,10 @@
                                                 "value": 0
                                               },
                                               "counters.pktsIn": {
-                                                "value": 386
+                                                "value": 883
                                               },
                                               "counters.pktsOut": {
-                                                "value": 282
+                                                "value": 287
                                               },
                                               "mediaActive": {
                                                 "description": "10000T-FD"
