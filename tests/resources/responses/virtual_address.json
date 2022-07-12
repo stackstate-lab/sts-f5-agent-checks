@@ -1,0 +1,56 @@
+{
+  "kind": "tm:ltm:virtual-address:virtual-addresscollectionstate",
+  "selfLink": "https://localhost/mgmt/tm/ltm/virtual-address?ver=16.1.3",
+  "items": [
+    {
+      "kind": "tm:ltm:virtual-address:virtual-addressstate",
+      "name": "192.168.10.20",
+      "partition": "Common",
+      "fullPath": "/Common/192.168.10.20",
+      "generation": 586,
+      "selfLink": "https://localhost/mgmt/tm/ltm/virtual-address/~Common~192.168.10.20?ver=16.1.3",
+      "address": "192.168.10.20",
+      "arp": "enabled",
+      "autoDelete": "true",
+      "connectionLimit": 0,
+      "enabled": "yes",
+      "floating": "disabled",
+      "icmpEcho": "enabled",
+      "inheritedTrafficGroup": "false",
+      "mask": "255.255.255.255",
+      "routeAdvertisement": "disabled",
+      "serverScope": "any",
+      "spanning": "disabled",
+      "trafficGroup": "/Common/traffic-group-local-only",
+      "trafficGroupReference": {
+        "link": "https://localhost/mgmt/tm/cm/traffic-group/~Common~traffic-group-local-only?ver=16.1.3"
+      },
+      "unit": 0
+    },
+    {
+      "kind": "tm:ltm:virtual-address:virtual-addressstate",
+      "name": "192.168.10.21",
+      "partition": "Common",
+      "fullPath": "/Common/192.168.10.21",
+      "generation": 608,
+      "selfLink": "https://localhost/mgmt/tm/ltm/virtual-address/~Common~192.168.10.21?ver=16.1.3",
+      "address": "192.168.10.21",
+      "arp": "enabled",
+      "autoDelete": "true",
+      "connectionLimit": 0,
+      "enabled": "yes",
+      "floating": "enabled",
+      "icmpEcho": "enabled",
+      "inheritedTrafficGroup": "false",
+      "mask": "255.255.255.255",
+      "routeAdvertisement": "disabled",
+      "serverScope": "any",
+      "spanning": "disabled",
+      "trafficGroup": "/Common/traffic-group-1",
+      "trafficGroupReference": {
+        "link": "https://localhost/mgmt/tm/cm/traffic-group/~Common~traffic-group-1?ver=16.1.3"
+      },
+      "unit": 1
+    }
+  ]
+}

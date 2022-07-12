@@ -69,6 +69,8 @@ def _setup_request_mocks(instance, m):
         m.register_uri(method, url, json=response(object_type))
         m.register_uri(method, f"{url}/stats", json=response(f"{object_type}_stats"))
 
+    m.register_uri("GET", f"{instance.f5.url}/mgmt/tm/ltm/data-group/internal", json=response("data_group_internal"))
+
     endpoints = [
         ("GET", "interface", "net"),
         ("GET", "node"),
@@ -78,6 +80,7 @@ def _setup_request_mocks(instance, m):
         ("GET", "rule"),
         ("GET", "self", "net"),
         ("GET", "virtual"),
+        ("GET", "virtual-address"),
         ("GET", "vlan", "net"),
         ("GET", "device", "cm"),
         ("GET", "device-group", "cm"),

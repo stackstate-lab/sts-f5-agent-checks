@@ -1,0 +1,19 @@
+{
+  "kind": "tm:ltm:data-group:external:externalcollectionstate",
+  "selfLink": "https://localhost/mgmt/tm/ltm/data-group/external?ver=16.1.3",
+  "items": [
+    {
+      "kind": "tm:ltm:data-group:external:externalstate",
+      "name": "ProxyPassaplicatii-net-oro.orange.ro_40net_ssl_vs",
+      "partition": "Common",
+      "fullPath": "/Common/ProxyPassaplicatii-net-oro.orange.ro_40net_ssl_vs",
+      "generation": 617,
+      "selfLink": "https://localhost/mgmt/tm/ltm/data-group/external/~Common~ProxyPassaplicatii-net-oro.orange.ro_40net_ssl_vs?ver=16.1.3",
+      "externalFileName": "/Common/ProxyPassaplicatii-net-oro.orange.ro_40net_ssl_vs",
+      "externalFileNameReference": {
+        "link": "https://localhost/mgmt/tm/sys/file/data-group/~Common~ProxyPassaplicatii-net-oro.orange.ro_40net_ssl_vs?ver=16.1.3"
+      },
+      "type": "string"
+    }
+  ]
+}

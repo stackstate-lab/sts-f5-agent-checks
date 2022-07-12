@@ -1,0 +1,94 @@
+{
+  "kind": "tm:ltm:virtual-address:virtual-addresscollectionstats",
+  "selfLink": "https://localhost/mgmt/tm/ltm/virtual-address/stats?ver=16.1.3",
+  "entries": {
+    "https://localhost/mgmt/tm/ltm/virtual-address/~Common~192.168.10.20/stats": {
+      "nestedStats": {
+        "kind": "tm:ltm:virtual-address:virtual-addressstats",
+        "selfLink": "https://localhost/mgmt/tm/ltm/virtual-address/~Common~192.168.10.20/stats?ver=16.1.3",
+        "entries": {
+          "addr": {
+            "description": "192.168.10.20"
+          },
+          "clientside.bitsIn": {
+            "value": 231248
+          },
+          "clientside.bitsOut": {
+            "value": 87200
+          },
+          "clientside.curConns": {
+            "value": 0
+          },
+          "clientside.maxConns": {
+            "value": 5
+          },
+          "clientside.pktsIn": {
+            "value": 223
+          },
+          "clientside.pktsOut": {
+            "value": 223
+          },
+          "clientside.totConns": {
+            "value": 60
+          },
+          "tmName": {
+            "description": "/Common/192.168.10.20"
+          },
+          "status.availabilityState": {
+            "description": "offline"
+          },
+          "status.enabledState": {
+            "description": "enabled"
+          },
+          "status.statusReason": {
+            "description": "The children virtual server(s) are down"
+          }
+        }
+      }
+    },
+    "https://localhost/mgmt/tm/ltm/virtual-address/~Common~192.168.10.21/stats": {
+      "nestedStats": {
+        "kind": "tm:ltm:virtual-address:virtual-addressstats",
+        "selfLink": "https://localhost/mgmt/tm/ltm/virtual-address/~Common~192.168.10.21/stats?ver=16.1.3",
+        "entries": {
+          "addr": {
+            "description": "192.168.10.21"
+          },
+          "clientside.bitsIn": {
+            "value": 0
+          },
+          "clientside.bitsOut": {
+            "value": 0
+          },
+          "clientside.curConns": {
+            "value": 0
+          },
+          "clientside.maxConns": {
+            "value": 0
+          },
+          "clientside.pktsIn": {
+            "value": 0
+          },
+          "clientside.pktsOut": {
+            "value": 0
+          },
+          "clientside.totConns": {
+            "value": 0
+          },
+          "tmName": {
+            "description": "/Common/192.168.10.21"
+          },
+          "status.availabilityState": {
+            "description": "unknown"
+          },
+          "status.enabledState": {
+            "description": "enabled"
+          },
+          "status.statusReason": {
+            "description": "The children virtual server(s) either don't have service checking enabled, or service check results are not available yet"
+          }
+        }
+      }
+    }
+  }
+}
