@@ -1,6 +1,6 @@
 {
   "kind": "tm:ltm:pool:poolcollectionstate",
-  "selfLink": "https://localhost/mgmt/tm/ltm/pool?ver=16.1.3",
+  "selfLink": "https://localhost/mgmt/tm/ltm/pool?expandSubcollections=true&ver=16.1.3",
   "items": [
     {
       "kind": "tm:ltm:pool:poolstate",
@@ -30,7 +30,61 @@
       "slowRampTime": 10,
       "membersReference": {
         "link": "https://localhost/mgmt/tm/ltm/pool/~Common~WebServers_Pool/members?ver=16.1.3",
-        "isSubcollection": true
+        "isSubcollection": true,
+        "items": [
+          {
+            "kind": "tm:ltm:pool:members:membersstate",
+            "name": "10.10.10.22:80",
+            "partition": "Common",
+            "fullPath": "/Common/10.10.10.22:80",
+            "generation": 597,
+            "selfLink": "https://localhost/mgmt/tm/ltm/pool/~Common~WebServers_Pool/members/~Common~10.10.10.22:80?ver=16.1.3",
+            "address": "10.10.10.22",
+            "connectionLimit": 0,
+            "dynamicRatio": 1,
+            "ephemeral": "false",
+            "fqdn": {
+              "autopopulate": "disabled"
+            },
+            "inheritProfile": "enabled",
+            "logging": "disabled",
+            "monitor": "default",
+            "priorityGroup": 0,
+            "rateLimit": "disabled",
+            "ratio": 1,
+            "session": "monitor-enabled",
+            "state": "down",
+            "nameReference": {
+              "link": "https://localhost/mgmt/tm/ltm/node/~Common~10.10.10.22:80?ver=16.1.3"
+            }
+          },
+          {
+            "kind": "tm:ltm:pool:members:membersstate",
+            "name": "server1:80",
+            "partition": "Common",
+            "fullPath": "/Common/server1:80",
+            "generation": 449,
+            "selfLink": "https://localhost/mgmt/tm/ltm/pool/~Common~WebServers_Pool/members/~Common~server1:80?ver=16.1.3",
+            "address": "10.10.10.20",
+            "connectionLimit": 0,
+            "dynamicRatio": 1,
+            "ephemeral": "false",
+            "fqdn": {
+              "autopopulate": "disabled"
+            },
+            "inheritProfile": "enabled",
+            "logging": "disabled",
+            "monitor": "default",
+            "priorityGroup": 0,
+            "rateLimit": "disabled",
+            "ratio": 1,
+            "session": "monitor-enabled",
+            "state": "down",
+            "nameReference": {
+              "link": "https://localhost/mgmt/tm/ltm/node/~Common~server1:80?ver=16.1.3"
+            }
+          }
+        ]
       }
     }
   ]
