@@ -4,6 +4,10 @@ etl:
       query: "f5.get_cm_object('traffic-group')['items']"
       template_refs:
         - f5_traffic_group_template
+    - name: f5_traffic_group_stats
+      query: "f5.get_cm_object_stats('traffic-group')"
+      template_refs:
+        - f5_traffic_group_rel_template
   template:
     components:
       - name: f5_traffic_group_template
@@ -15,3 +19,12 @@ etl:
           custom_properties:
             partition: "$.partition"
             isFloating: "$.isFloating"
+      - name: f5_traffic_group_rel_template
+        selector: "|item['name'] != 'traffic-group-local-only'"
+        spec:
+          mergeable: true
+          name: "$.name"
+          type: "f5-traffic-group"
+          uid: "|uid('f5', 'traffic:group', item['name'])"
+          relations:
+            - "|uid('f5', 'device', item['entries']['deviceName']['description'].rsplit('/', 1)[1])"

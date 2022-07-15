@@ -94,6 +94,14 @@ class F5Client(object):
         self._session = self._init_session(spec)
 
     @staticmethod
+    def get_ip_from_destination(destination: str) -> str:
+        # /Common/192.168.10.21:80
+        if "/" in destination:
+            destination = destination.rsplit("/", 1)[1]
+        parts = destination.split(":")
+        return parts[0]
+
+    @staticmethod
     def get_name_from_self_link(link: str) -> str:
         parts = link.split("?")[0].split("/")
         name = parts[-1]
@@ -182,11 +190,12 @@ class F5Client(object):
         result = []
         for key, stats in response["entries"].items():
             nested_stats = stats["nestedStats"]
+            # https://localhost/mgmt/tm/cm/traffic-group/~Common~traffic-group-1:~Common~bigip1.local.net/stats
             name = key.split("/")[-2]
             if name.startswith("~"):
                 parts = name[1:].split("~")
                 nested_stats["partition"] = parts[0]
-                name = parts[1]
+                name = parts[1].split(":")[0]
             nested_stats["name"] = name
             result.append(nested_stats)
         return result
