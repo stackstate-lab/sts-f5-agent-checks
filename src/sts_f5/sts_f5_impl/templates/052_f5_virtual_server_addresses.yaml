@@ -1,0 +1,18 @@
+etl:
+  queries:
+    - name: f5_virtual_server_addresses
+      query: "f5.get_ltm_object('virtual-address')['items']"
+      template_refs:
+        - f5_virtual_server_addresse_template
+  template:
+    components:
+      - name: f5_virtual_server_addresse_template
+        spec:
+          mergeable: true
+          name: "$.name"
+          type: "f5-virtual-server"
+          uid: "|uid('f5', 'virtual:server:ip', item['name'])"
+          custom_properties:
+            trafficGroup: "$.trafficGroup"
+          relations:
+            - "|uid('f5', 'traffic:group', item['trafficGroup'].rsplit('/',1)[1])"

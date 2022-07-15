@@ -1,0 +1,28 @@
+etl:
+  queries:
+    - name: f5_virtual_servers
+      query: "f5.get_ltm_object('virtual')['items']"
+      template_refs:
+        - f5_virtual_server_template
+  template:
+    components:
+      - name: f5_virtual_server_template
+        spec:
+          name: "$.name"
+          type: "f5-virtual-server"
+          uid: "|uid('f5', 'virtual:server:ip', f5.get_ip_from_destination(item['destination']))"
+          layer: "F5 Virtual Servers"
+          identifiers:
+            - "|uid('f5', 'virtual:server', item['name'])"
+          custom_properties:
+            destination: "$.destination"
+            source: "$.source"
+            ipProtocol: "$.ipProtocol"
+            rules: "|item.get('rules', [])"
+            pool: "|item.get('pool', 'None')"
+          relations: |
+            relations = []
+            if item.get("pool", None):
+              pool = f5.get_name_from_self_link(item["poolReference"]["link"])
+              relations.append(uid('f5', 'pool', pool))
+            relations

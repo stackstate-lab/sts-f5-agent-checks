@@ -7,7 +7,7 @@
       "name": "AppServer_80",
       "partition": "Common",
       "fullPath": "/Common/AppServer_80",
-      "generation": 612,
+      "generation": 623,
       "selfLink": "https://localhost/mgmt/tm/ltm/virtual/~Common~AppServer_80?ver=16.1.3",
       "addressStatus": "yes",
       "autoLasthop": "default",
@@ -41,11 +41,15 @@
       "vlansDisabled": true,
       "vsIndex": 4,
       "rules": [
-        "/Common/_sys_APM_ExchangeSupport_helper"
+        "/Common/_sys_APM_ExchangeSupport_helper",
+        "/Common/ProxyPass_v10_9_orig"
       ],
       "rulesReference": [
         {
           "link": "https://localhost/mgmt/tm/ltm/rule/~Common~_sys_APM_ExchangeSupport_helper?ver=16.1.3"
+        },
+        {
+          "link": "https://localhost/mgmt/tm/ltm/rule/~Common~ProxyPass_v10_9_orig?ver=16.1.3"
         }
       ],
       "policiesReference": {
