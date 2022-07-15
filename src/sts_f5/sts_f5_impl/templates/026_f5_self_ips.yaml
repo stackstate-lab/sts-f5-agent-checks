@@ -1,0 +1,20 @@
+etl:
+  queries:
+    - name: f5_self_ips
+      query: "f5.get_net_object('self')['items']"
+      template_refs:
+        - f5_self_ip_template
+  template:
+    components:
+      - name: f5_self_ip_template
+        spec:
+          name: "$.name"
+          type: "f5-self-ip"
+          uid: "|uid('f5', 'self:ip', item['name'])"
+          layer: "F5 Self IPs"
+          relations:
+            - "|uid('f5', 'vlan', f5.get_name_from_self_link(jpath('$.vlanReference.link')))"
+            - "|uid('f5', 'traffic:group', f5.get_name_from_self_link(jpath('$.trafficGroupReference.link')))"
+          custom_properties:
+            partition: "$.partition"
+            type: "$.type"

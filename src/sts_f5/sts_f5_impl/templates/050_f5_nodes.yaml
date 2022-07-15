@@ -12,7 +12,7 @@ etl:
           name: "$.name"
           type: "f5-node"
           uid: "|uid('f5', 'node', item['name'])"
-          layer: "Machines"
+          layer: "F5 Nodes"
           identifiers:
             - "|'urn:host:/%s' % item['name']"
             - "|'urn:host:/%s' % item['address']"

@@ -93,6 +93,14 @@ class F5Client(object):
         self.spec.url = pydash.strings.ensure_ends_with(spec.url, "/")
         self._session = self._init_session(spec)
 
+    @staticmethod
+    def get_name_from_self_link(link: str) -> str:
+        parts = link.split("?")[0].split("/")
+        name = parts[-1]
+        if '~' in name:
+            name = name.rsplit('~', 1)[-1]
+        return name
+
     def get(self, url, params):
         result = self._handle_failed_call(self._session.get(url, params=params)).json()
         return result

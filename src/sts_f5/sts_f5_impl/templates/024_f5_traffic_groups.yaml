@@ -1,23 +1,17 @@
 etl:
   queries:
     - name: f5_traffic_groups
-      query: "f5.get_cm_object('traffic-group', expand_subcollections=True)['items']"
+      query: "f5.get_cm_object('traffic-group')['items']"
       template_refs:
-        - f5_device_group_template
+        - f5_traffic_group_template
   template:
     components:
-      - name: f5_device_group_template
+      - name: f5_traffic_group_template
         spec:
           name: "$.name"
-          type: "f5-device-group"
-          uid: "|uid('f5', 'device:group', item['name'])"
-          layer: "F5 Device Groups"
-          relations: |
-            relations = []
-            for device in item["devicesReference"]["items"]:
-              target_uid = uid('f5', 'device', device['name'])
-              relations.append(target_uid)
-            relations
+          type: "f5-traffic-group"
+          uid: "|uid('f5', 'traffic:group', item['name'])"
+          layer: "F5 Traffic Groups"
           custom_properties:
             partition: "$.partition"
-            type: "$.type"
+            isFloating: "$.isFloating"
