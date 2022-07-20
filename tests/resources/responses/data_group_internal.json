@@ -12,8 +12,8 @@
       "type": "string",
       "records": [
         {
-          "name": "AppServer_80",
-          "data": "WebServers_Pool"
+          "name": "AppServer",
+          "data": "aplicatii-net-oro.stackatate.ro/wfm wfm.rancher-sales-external.prod.stackstate.intra/wfm WebServers_Pool"
         }
       ]
     },

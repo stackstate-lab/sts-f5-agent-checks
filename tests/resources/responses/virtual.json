@@ -42,7 +42,8 @@
       "vsIndex": 4,
       "rules": [
         "/Common/_sys_APM_ExchangeSupport_helper",
-        "/Common/ProxyPass_v10_9_orig"
+        "/Common/ProxyPass_v10_9_orig",
+        "/Common/app.crm.stackstate.intra_ReverseProxy"
       ],
       "rulesReference": [
         {
