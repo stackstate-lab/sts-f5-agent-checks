@@ -76,6 +76,7 @@ extended_default_ignore=[]
 "*" = [
     "+*",
     "-E203",
+    "-W503"
     ]
 
 [build-system]

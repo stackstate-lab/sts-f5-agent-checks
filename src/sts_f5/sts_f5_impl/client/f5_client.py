@@ -1,5 +1,6 @@
+import re
 from logging import Logger
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List, Optional
 
 import pydash.strings
 import requests
@@ -8,14 +9,7 @@ from requests.structures import CaseInsensitiveDict
 from sts_f5_impl.model.instance import F5Spec
 from urllib3.util import Retry
 
-CM_OBJECTS = [
-    "cert",
-    "device",
-    "device-group",
-    "key",
-    "traffic-group",
-    "trust-domain"
-]
+CM_OBJECTS = ["cert", "device", "device-group", "key", "traffic-group", "trust-domain"]
 
 LTM_OBJECTS = [
     "auth",
@@ -92,6 +86,8 @@ class F5Client(object):
         self.spec = spec
         self.spec.url = pydash.strings.ensure_ends_with(spec.url, "/")
         self._session = self._init_session(spec)
+        self._rules: Dict[str, str] = {}
+        self._data_groups: Dict[str, Dict[str, str]] = {}
 
     @staticmethod
     def get_ip_from_destination(destination: str) -> str:
@@ -105,23 +101,104 @@ class F5Client(object):
     def get_name_from_self_link(link: str) -> str:
         parts = link.split("?")[0].split("/")
         name = parts[-1]
-        if '~' in name:
-            name = name.rsplit('~', 1)[-1]
+        if "~" in name:
+            name = name.rsplit("~", 1)[-1]
         return name
 
-    def get(self, url, params):
+    def get(self, url, params) -> Dict[str, Any]:
         result = self._handle_failed_call(self._session.get(url, params=params)).json()
         return result
 
+    def get_pools_from_switch_statement_irule(self, rule_name: str) -> List[Dict[str, Optional[str]]]:
+        irule = self.get_rule(rule_name)
+        # strip out key words
+        lines = []
+        for line in irule.split("\n"):
+            line = line.strip()
+            if (
+                line == ""
+                or line.startswith("#")
+                or line.startswith("if ")
+                or line.startswith("switch ")
+                or line.startswith("when ")
+                or line.startswith("HTTP::uri")
+                or line.startswith("[HTTP::uri")
+                or line.startswith("HTTP::redirect")
+                or line.startswith("persist")
+                or line.startswith("set ")
+            ):
+                continue
+            lines.append(line)
+
+        one_line_block = re.compile('("/[A-Za-z0-9-*/_]*".*{)(.*)}')
+        start_block = re.compile('"(/[A-Za-z0-9-*/_]*)".*{')
+        blocks = []
+        still_too_parse_lines = []
+        for line in lines:
+            match = one_line_block.match(line)
+            if match:
+                blocks.append([match.group(1).strip(), match.group(2).strip(), "}"])
+            else:
+                still_too_parse_lines.append(line)
+
+        current_block: List[str] = []
+        first_iteration = True
+        while len(still_too_parse_lines) > 0:
+            line = still_too_parse_lines.pop(0)
+            if start_block.match(line):
+                first_iteration = False
+                if current_block:
+                    blocks.append(current_block)
+                    current_block = []
+            else:
+                if first_iteration:
+                    raise Exception(f"No start block found! Fist line was '{line}'")
+            if line.strip() != "":
+                current_block.append(line)
+        pools: List[Dict[str, Optional[str]]] = []
+        host_line = "HTTP::header replace Host "
+        pool_line = "pool "
+        for block in blocks:
+            uri_pattern = None
+            host = None
+            pool = None
+            for line in block:
+                match = start_block.match(line)
+                if match:
+                    uri_pattern = match.group(1)
+                elif line.startswith(host_line):
+                    host = line[len(host_line):]
+                elif line.startswith(pool_line):
+                    pool = line[len(pool_line):]
+            if pool:
+                pools.append({"pool": pool, "host": host, "uri_pattern": uri_pattern})
+        return pools
+
+    def get_rule(self, rule_name: str) -> str:
+        if len(self._rules) == 0:
+            rules_object: Dict[str, Any] = self.get_ltm_object("rule")
+            for item in rules_object["items"]:
+                self._rules[item["name"]] = item["apiAnonymous"]
+        return self._rules[rule_name]
+
+    def get_data_group(self, dg_name: str) -> Dict[str, str]:
+        if len(self._data_groups) == 0:
+            url = self.get_ltm_type_url("data-group")
+            data_groups_object = self._get_f5_object(f"{url}/internal", False, None)  # type: ignore
+            for item in data_groups_object["items"]:
+                records = {}
+                for r in item["records"]:
+                    records[r["name"]] = r["data"]
+                self._data_groups[item["name"]] = records
+        return self._data_groups[dg_name]
+
     def get_ltm_object(
         self, object_type: str, expand_subcollections: bool = False, params: Dict[str, Any] = None
-    ) -> Union[List[Dict[str, Any]], Dict[str, Any]]:
+    ) -> Dict[str, Any]:
         url = self.get_ltm_type_url(object_type)
         return self._get_f5_object(url, expand_subcollections, params)
 
-    def get_ltm_object_stats(
-        self, object_type: str, params: Dict[str, Any] = None
-    ) -> Union[List[Dict[str, Any]], Dict[str, Any]]:
+    def get_ltm_object_stats(self, object_type: str, params: Dict[str, Any] = None) -> List[Dict[str, Any]]:
         """
         :param object_type: str Any object in the LTM_OBJECTS list
         :param params: Dict[str, Any] Additional query paramaters
@@ -132,13 +209,11 @@ class F5Client(object):
 
     def get_net_object(
         self, object_type: str, expand_subcollections: bool = False, params: Dict[str, Any] = None
-    ) -> Union[List[Dict[str, Any]], Dict[str, Any]]:
+    ) -> Dict[str, Any]:
         url = self.get_net_type_url(object_type)
         return self._get_f5_object(url, expand_subcollections, params)
 
-    def get_net_object_stats(
-        self, object_type: str, params: Dict[str, Any] = None
-    ) -> Union[List[Dict[str, Any]], Dict[str, Any]]:
+    def get_net_object_stats(self, object_type: str, params: Dict[str, Any] = None) -> List[Dict[str, Any]]:
         """
         :param object_type: str Any object in the NET_OBJECTS list
         :param params: Dict[str, Any] Additional query paramaters
@@ -148,14 +223,12 @@ class F5Client(object):
         return self._get_object_stats(params, url)
 
     def get_cm_object(
-            self, object_type: str, expand_subcollections: bool = False, params: Dict[str, Any] = None
-    ) -> Union[List[Dict[str, Any]], Dict[str, Any]]:
+        self, object_type: str, expand_subcollections: bool = False, params: Dict[str, Any] = None
+    ) -> Dict[str, Any]:
         url = self.get_cm_type_url(object_type)
         return self._get_f5_object(url, expand_subcollections, params)
 
-    def get_cm_object_stats(
-            self, object_type: str, params: Dict[str, Any] = None
-    ) -> Union[List[Dict[str, Any]], Dict[str, Any]]:
+    def get_cm_object_stats(self, object_type: str, params: Dict[str, Any] = None) -> List[Dict[str, Any]]:
         """
         :param object_type: str Any object in the CM_OBJECTS list
         :param params: Dict[str, Any] Additional query paramaters
@@ -164,28 +237,28 @@ class F5Client(object):
         url = f"{self.get_cm_type_url(object_type)}/stats"
         return self._get_object_stats(params, url)
 
-    def get_cm_type_url(self, object_type: str):
+    def get_cm_type_url(self, object_type: str) -> str:
         if object_type not in CM_OBJECTS:
             raise Exception(f'Object type "{object_type}" is unknown.  Valid types are {CM_OBJECTS}')
         return f"{self.spec.url}mgmt/tm/cm/{object_type}"
 
-    def get_ltm_type_url(self, object_type: str):
+    def get_ltm_type_url(self, object_type: str) -> str:
         if object_type not in LTM_OBJECTS:
             raise Exception(f'Object type "{object_type}" is unknown.  Valid types are {LTM_OBJECTS}')
         return f"{self.spec.url}mgmt/tm/ltm/{object_type}"
 
-    def get_net_type_url(self, object_type: str):
+    def get_net_type_url(self, object_type: str) -> str:
         if object_type not in NET_OBJECTS:
             raise Exception(f'Object type "{object_type}" is unknown.  Valid types are {NET_OBJECTS}')
         return f"{self.spec.url}mgmt/tm/net/{object_type}"
 
-    def _get_f5_object(self, url, expand_subcollections, params):
+    def _get_f5_object(self, url, expand_subcollections, params) -> Dict[str, Any]:
         if expand_subcollections:
             params = params if params is not None else {}
             params["expandSubcollections"] = "true"
         return self.get(url, params)
 
-    def _get_object_stats(self, params, url):
+    def _get_object_stats(self, params, url) -> List[Dict[str, Any]]:
         response = self.get(url, params)
         result = []
         for key, stats in response["entries"].items():
@@ -231,3 +304,11 @@ class F5Client(object):
             msg = f"Failed to call [{response.url}]. Status code {response.status_code}. {response.text}"
             raise Exception(msg)
         return response
+
+    @staticmethod
+    def _rreplace(s, old, new):
+        li = s.rsplit(old, 1)
+        return new.join(li)
+
+    def break_point(self, arg: Any):
+        self.log.info(arg)
