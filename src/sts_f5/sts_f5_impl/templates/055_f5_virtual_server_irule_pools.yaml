@@ -8,7 +8,6 @@ etl:
     - name: process_data_group_proxypass_rule
       code: |
         def process_data_group_proxypass_rule(item):
-          log.error("Here")
           vs_component = factory.get_component(uid('f5', 'virtual:server:ip', f5.get_ip_from_destination(item['destination'])))
           data_group_name = "ProxyPass%s" % item["name"]
           records = f5.get_data_group(data_group_name)

@@ -70,17 +70,31 @@ APIs to syn data from,
 ### DataSources
 
 
-| Name                                                        | Module              | Cls      | Description                  |
-|-------------------------------------------------------------|---------------------|----------|------------------------------|
-| [f5](./src/sts_f5/sts_f5_impl/templates/010_default.yaml)   | sts_f5_impl.client  | F5Client | enables rest calls to F5 api |
+| Name                                                        | Module              | Cls                                                     | Description                  |
+|-------------------------------------------------------------|---------------------|---------------------------------------------------------|------------------------------|
+| [f5](./src/sts_f5/sts_f5_impl/templates/010_default.yaml)   | sts_f5_impl.client  | [F5Client](src/sts_f5/sts_f5_impl/client/f5_client.py)  | enables rest calls to F5 api |
 
 
 ### Template Mappings
 
-| Name                                                                            | Type    | 4T        | f5 Api                                                    | Description |
-|---------------------------------------------------------------------------------|---------|-----------|-----------------------------------------------------------|-------------|
-| [f5_host_template](./src/sts_f5/sts_f5_impl/templates/020_f5_nodes.yaml)        | f5-node | Component | [mgmt/tm/ltm/node](./tests/resources/responses/node.json) |             |
-| [f5_host_health_template](./src/sts_f5/sts_f5_impl/templates/020_f5_nodes.yaml) | f5-node | Health    | [mgmt/tm/ltm/node](./tests/resources/responses/node.json) |             |
+| Name                                                                                                                | Type              | 4T        | f5 Api                                                                                 | Description                                    |
+|---------------------------------------------------------------------------------------------------------------------|-------------------|-----------|----------------------------------------------------------------------------------------|------------------------------------------------|
+| [f5_device_template](./src/sts_f5/sts_f5_impl/templates/020_f5_devices.yaml)                                        | f5-device         | Component | [mgmt/tm/cm/device](./tests/resources/responses/device.json)                           |                                                |
+| [f5_device_group_template](./src/sts_f5/sts_f5_impl/templates/022_f5_device_groups.yaml)                            | f5-device-group   | Component | [mgmt/tm/cm/device-group](./tests/resources/responses/device_group.json)               |                                                |
+| [f5-traffic-group](./src/sts_f5/sts_f5_impl/templates/024_f5_traffic_groups.yaml)                                   | f5-traffic-group  | Component | [mgmt/tm/cm/traffic-group](./tests/resources/responses/traffic_group.json)             |                                                |
+| [f5_traffic_group_rel_template](./src/sts_f5/sts_f5_impl/templates/024_f5_traffic_groups.yaml)                      | f5-traffic-group  | Relation  | [mgmt/tm/cm/traffic-group/stats](./tests/resources/responses/traffic_group_stats.json) |                                                |
+| [f5_self_ip_template](./src/sts_f5/sts_f5_impl/templates/026_f5_self_ips.yaml)                                      | f5-self-ip        | Component | [mgmt/tm/net/self](./tests/resources/responses/self.json)                              |                                                |
+| [f5_host_template](./src/sts_f5/sts_f5_impl/templates/020_f5_nodes.yaml)                                            | f5-node           | Component | [mgmt/tm/ltm/node](./tests/resources/responses/node.json)                              |                                                |
+| [f5_host_health_template](./src/sts_f5/sts_f5_impl/templates/020_f5_nodes.yaml)                                     | f5-node           | Health    | [mgmt/tm/ltm/node](./tests/resources/responses/node.json)                              |                                                |
+| [f5_pool_template](./src/sts_f5/sts_f5_impl/templates/040_f5_pools.yaml)                                            | f5-pool           | Component | [mgmt/tm/ltm/pool](./tests/resources/responses/pool.json)                              |                                                |
+| [f5_pool_status_template](./src/sts_f5/sts_f5_impl/templates/040_f5_pools.yaml)                                     | f5-pool           | Health    | [mgmt/tm/ltm/pool/stats](./tests/resources/responses/pool_stats.json)                  |                                                |
+| [f5_pool_metrics_template](./src/sts_f5/sts_f5_impl/templates/040_f5_pools.yaml)                                    | f5-pool           | Metric    | [mgmt/tm/ltm/pool/stats](./tests/resources/responses/pool_stats.json)                  |                                                |
+| [f5_virtual_server_template](./src/sts_f5/sts_f5_impl/templates/050_f5_virtual_servers.yaml)                        | f5-virtual-server | Component | [mgmt/tm/ltm/virtual](./tests/resources/responses/virtual.json)                        |                                                |
+| [f5_virtual_server_addresse_template](./src/sts_f5/sts_f5_impl/templates/052_f5_virtual_server_addresses.yaml)      | f5-virtual-server | Relation  | [mgmt/tm/ltm/virtual-address](./tests/resources/responses/virtual_address.json)        |                                                |
+| [f5_interface_template](./src/sts_f5/sts_f5_impl/templates/060_f5_interfaces.yaml)                                  | f5-interface      | Component | [mgmt/tm/net/interface](./tests/resources/responses/interface.json)                    |                                                |
+| [f5_interface_status_template](./src/sts_f5/sts_f5_impl/templates/060_f5_interfaces.yaml)                           | f5-interface      | Health    | [mgmt/tm/net/interface/stats](./tests/resources/responses/interface_stats.json)        |                                                |
+| [f5_vlan_template](./src/sts_f5/sts_f5_impl/templates/060_f5_vlans.yaml)                                            | f5-vlan           | Component | [mgmt/tm/net/vlan](./tests/resources/responses/vlan.json)                              |                                                |
+| [f5_virtual_server_irule_pools](./src/sts_f5/sts_f5_impl/templates/055_f5_virtual_server_irule_pools.yaml.disabled) | f5-pool           | Relation  | IRule and Data Groups                                                                  | Example of parsing iRule and using Data Group  |
 
 
 ## Development
