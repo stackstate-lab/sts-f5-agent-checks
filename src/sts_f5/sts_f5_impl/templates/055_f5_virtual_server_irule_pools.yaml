@@ -38,6 +38,7 @@ etl:
               pool_component.uid = pool_uid
               pool_component.set_type("f5-pool")
               pool_component.properties.layer = "F5 Pools"
+              pool_component.properties.domain = "F5"
               factory.add_component(pool_component)
             pool_component.properties.add_label_kv("clientpattern", pool["uri_pattern"])
             if pool["host"] is not None:
