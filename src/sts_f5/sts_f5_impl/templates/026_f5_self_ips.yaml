@@ -14,7 +14,7 @@ etl:
           layer: "F5 Self IPs"
           relations:
             - "|uid('f5', 'vlan', f5.get_name_from_self_link(jpath('$.vlanReference.link')))"
-            - "|uid('f5', 'traffic:group', f5.get_name_from_self_link(jpath('$.trafficGroupReference.link')))"
+            - "|'<%s' % uid('f5', 'traffic:group', f5.get_name_from_self_link(jpath('$.trafficGroupReference.link')))"
           custom_properties:
             partition: "$.partition"
             type: "$.type"

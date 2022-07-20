@@ -13,7 +13,9 @@ import requests_mock
 
 logging.basicConfig()
 logger = logging.getLogger("stackstate_checks.base.checks.base.f5check")
+logger_f5 = logging.getLogger("stackstate_checks.base.checks.base.f5")
 logger.setLevel(logging.INFO)
+logger_f5.setLevel(logging.INFO)
 
 
 @requests_mock.Mocker(kw="m")
@@ -69,7 +71,7 @@ def _setup_request_mocks(instance, m):
         m.register_uri(method, url, json=response(object_type))
         m.register_uri(method, f"{url}/stats", json=response(f"{object_type}_stats"))
 
-    m.register_uri("GET", f"{instance.f5.url}/mgmt/tm/ltm/data-group/internal", json=response("data_group_internal"))
+    m.register_uri("GET", f"{instance.f5.url}mgmt/tm/ltm/data-group/internal", json=response("data_group_internal"))
 
     endpoints = [
         ("GET", "interface", "net"),
