@@ -1,0 +1,65 @@
+etl:
+  datasources:
+    - name: ComponentClass
+      module: stackstate_etl.model.stackstate
+      cls: Component
+      init: "Component"
+  pre_processors:
+    - name: process_data_group_proxypass_rule
+      code: |
+        def process_data_group_proxypass_rule(item):
+          log.error("Here")
+          vs_component = factory.get_component(uid('f5', 'virtual:server:ip', f5.get_ip_from_destination(item['destination'])))
+          data_group_name = "ProxyPass%s" % item["name"]
+          records = f5.get_data_group(data_group_name)
+          host_name = item["name"].split("_")[0]
+          for key, value in records.items():
+            if key.startswith(host_name):
+              value_parts = value.split(" ")
+              if len(value_parts) != 3:
+                raise Exception("Expected 3 parts in value '%s' for key '%s' in data group '%s' " % (value, key, data_group_name))
+              pool_component = factory.get_component(uid('f5', 'pool', value_parts[2]))
+              pool_component.properties.add_label_kv("clientside", value_parts[0])
+              pool_component.properties.add_label_kv("serverside", value_parts[1])
+              if not factory.relation_exists(vs_component.uid, pool_component.uid):
+                factory.add_component_relations(vs_component, [pool_component.uid])
+        session["process_data_group_proxypass_rule"] = process_data_group_proxypass_rule
+    - name: process_reverse_proxypass_rule
+      code: |
+        def process_reverse_proxypass_rule(rule, item, component_class):
+          vs_component = factory.get_component(uid('f5', 'virtual:server:ip', f5.get_ip_from_destination(item['destination'])))
+          pools = f5.get_pools_from_switch_statement_irule(rule)
+          for pool in pools:
+            pool_uid = uid('f5', 'pool', pool["pool"])
+            if factory.component_exists(pool_uid):
+              pool_component = factory.get_component(pool_uid)
+            else:
+              pool_component = component_class()
+              pool_component.set_name(pool["pool"])
+              pool_component.uid = pool_uid
+              pool_component.set_type("f5-pool")
+              pool_component.properties.layer = "F5 Pools"
+              factory.add_component(pool_component)
+            pool_component.properties.add_label_kv("clientpattern", pool["uri_pattern"])
+            if pool["host"] is not None:
+              pool_component.properties.add_label_kv("serverside", pool["host"])
+            if not factory.relation_exists(vs_component.uid, pool_uid):
+              factory.add_relation(vs_component.uid, pool_uid)
+        session["process_reverse_proxypass_rule"] = process_reverse_proxypass_rule
+
+  queries:
+    - name: f5_virtual_server_irule_pools
+      query: "f5.get_ltm_object('virtual')['items']"
+      template_refs: []
+      processor: |
+        rules = item.get("rules", [])
+        for rule in rules:
+          r = rule.rsplit("/")[-1]
+          log.info(r)
+          if r.startswith("ProxyPass_"):
+              session["process_data_group_proxypass_rule"](item)
+          elif r.endswith("_ReverseProxy"):
+              session["process_reverse_proxypass_rule"](r, item, ComponentClass)
+                
+                  
+                
