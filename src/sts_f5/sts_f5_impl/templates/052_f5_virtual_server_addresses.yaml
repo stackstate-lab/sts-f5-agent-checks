@@ -3,10 +3,10 @@ etl:
     - name: f5_virtual_server_addresses
       query: "f5.get_ltm_object('virtual-address')['items']"
       template_refs:
-        - f5_virtual_server_addresse_template
+        - f5_virtual_server_address_template
   template:
     components:
-      - name: f5_virtual_server_addresse_template
+      - name: f5_virtual_server_address_template
         spec:
           mergeable: true
           name: "$.name"
