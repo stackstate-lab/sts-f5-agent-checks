@@ -23,6 +23,7 @@ etl:
           relations: |
             relations = []
             if item.get("pool", None):
-              pool = f5.get_name_from_self_link(item["poolReference"]["link"])
-              relations.append(uid('f5', 'pool', pool))
+              rel = 'urn:f5:pool:/%s' % item["pool"]
+              if rel not in relations:              
+                relations.append(rel)
             relations

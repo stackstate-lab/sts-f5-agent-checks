@@ -17,7 +17,7 @@ etl:
             fullPath: "$.fullPath"
           relations: |
             relations = []
-            for interface in item["interfacesReference"]["items"]:
+            for interface in item["interfacesReference"].get("items", []):
               target_uid = uid('f5', 'interface', interface['name'])
               relations.append(target_uid)
             relations

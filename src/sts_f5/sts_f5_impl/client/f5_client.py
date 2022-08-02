@@ -105,6 +105,12 @@ class F5Client(object):
             name = name.rsplit("~", 1)[-1]
         return name
 
+    @staticmethod
+    def get_full_name_from_self_link(link: str) -> str:
+        parts = link.split("?")[0].split("/")
+        name = parts[-1]
+        return name.replace("~", "/")
+
     def get(self, url, params) -> Dict[str, Any]:
         result = self._handle_failed_call(self._session.get(url, params=params)).json()
         return result
@@ -167,9 +173,9 @@ class F5Client(object):
                 if match:
                     uri_pattern = match.group(1)
                 elif line.startswith(host_line):
-                    host = line[len(host_line):]
+                    host = line[len(host_line) :]
                 elif line.startswith(pool_line):
-                    pool = line[len(pool_line):]
+                    pool = line[len(pool_line) :]
             if pool:
                 pools.append({"pool": pool, "host": host, "uri_pattern": uri_pattern})
         return pools
@@ -295,7 +301,7 @@ class F5Client(object):
     def _setup_session_token(self, session: requests.Session, spec: F5Spec):
         url = f"{spec.url}mgmt/shared/authn/login"
         body = {"username": spec.username, "password": spec.password, "loginProviderName": "tmos"}
-        result = self._handle_failed_call(session.post(url, data=body)).json()
+        result = self._handle_failed_call(session.post(url, json=body)).json()
         session.headers["X-F5-Auth-Token"] = result["token"]["token"]
 
     @staticmethod

@@ -11,7 +11,7 @@ etl:
         spec:
           name: "$.name"
           type: "f5-node"
-          uid: "|uid('f5', 'node', item['name'])"
+          uid: "|uid('f5', 'node', item['fullPath'])"
           layer: "F5 Nodes"
           identifiers:
             - "|'urn:host:/%s' % item['name']"
@@ -26,8 +26,8 @@ etl:
     health:
       - name: f5_host_health_template
         spec:
-          check_id: "|'%s_online' % item['name']"
+          check_id: "|'%s_online' % item['fullPath']"
           check_name: "NodeOnline"
-          topo_identifier: "|uid('f5', 'node', item['name'])"
+          topo_identifier: "|uid('f5', 'node', item['fullPath'])"
           health: "|'CLEAR' if item['state'] == 'up' else 'CRITICAL'"
           message: "|'Node state is %s' % item['state']"

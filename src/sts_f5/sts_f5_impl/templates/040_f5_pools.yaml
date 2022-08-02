@@ -15,12 +15,12 @@ etl:
         spec:
           name: "$.name"
           type: "f5-pool"
-          uid: "|uid('f5', 'pool', item['name'])"
+          uid: "|'urn:f5:pool:/%s' % item['fullPath']"
           layer: "F5 Pools"
           relations: |
             relations = []
-            for node in item["membersReference"]["items"]:
-              target_uid = uid('f5', 'node', node['name'].split(":")[0])
+            for node in item["membersReference"].get("items", []):
+              target_uid = uid('f5', 'node', node['fullPath'].rsplit(":", 1)[0])
               relations.append(target_uid)
             relations
           custom_properties:
@@ -29,9 +29,9 @@ etl:
     health:
       - name: f5_pool_status_template
         spec:
-          check_id: "|'pool_%s_status' % item['name']"
+          check_id: "|'pool_%s_status' % item['entries']['tmName']['description']"
           check_name: "PoolAvailable"
-          topo_identifier: "|uid('f5', 'pool', item['name'])"
+          topo_identifier: "|'urn:f5:pool:/%s' % item['entries']['tmName']['description']"
           health: |
             src_status = item["entries"]["status.availabilityState"]["description"]
             "CLEAR" if src_status == "available" else "CRITICAL"
@@ -39,7 +39,7 @@ etl:
     metrics:
       - name: f5_pool_metrics_template
         code: |
-          component_uid = uid('f5', 'pool', item['name'])
+          component_uid = 'urn:f5:pool:/%s' % item['entries']['tmName']['description']
           usage_stats = item["entries"]
           factory.add_metric_value("f5.pool.activeMemberCnt",  usage_stats["activeMemberCnt"]["value"], target_uid=component_uid)
           factory.add_metric_value("f5.pool.availableMemberCnt",  usage_stats["availableMemberCnt"]["value"], target_uid=component_uid)

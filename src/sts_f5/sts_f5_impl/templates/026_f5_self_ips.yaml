@@ -12,9 +12,12 @@ etl:
           type: "f5-self-ip"
           uid: "|uid('f5', 'self:ip', item['name'])"
           layer: "F5 Self IPs"
-          relations:
-            - "|uid('f5', 'vlan', f5.get_name_from_self_link(jpath('$.vlanReference.link')))"
-            - "|'<%s' % uid('f5', 'traffic:group', f5.get_name_from_self_link(jpath('$.trafficGroupReference.link')))"
+          relations: |
+            relations = ['<%s' % uid('f5', 'traffic:group', f5.get_name_from_self_link(jpath('$.trafficGroupReference.link')))]
+            vlan = f5.get_name_from_self_link(jpath('$.vlanReference.link'))
+            if not vlan.endswith("tunnel"):
+              relations.append(uid('f5', 'vlan', vlan ))
+            relations
           custom_properties:
             partition: "$.partition"
             type: "$.type"
