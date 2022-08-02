@@ -11,7 +11,7 @@ etl:
           mergeable: true
           name: "$.name"
           type: "f5-virtual-server"
-          uid: "|uid('f5', 'virtual:server:ip', item['name'])"
+          uid: "|uid('f5', 'virtual:server:ip', item['fullPath'])"
           custom_properties:
             trafficGroup: "$.trafficGroup"
           relations:

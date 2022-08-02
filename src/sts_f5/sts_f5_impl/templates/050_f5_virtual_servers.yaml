@@ -10,7 +10,7 @@ etl:
         spec:
           name: "$.name"
           type: "f5-virtual-server"
-          uid: "|uid('f5', 'virtual:server:ip', f5.get_ip_from_destination(item['destination']))"
+          uid: "|uid('f5', 'virtual:server:ip', item['destination'].rsplit(':', 1)[0])"
           layer: "F5 Virtual Servers"
           identifiers:
             - "|uid('f5', 'virtual:server', item['name'])"
