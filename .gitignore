@@ -119,3 +119,4 @@ tests/resources/conf.d/**/conf.yaml
 .vagrant/
 /software/f5/BIGIP-16.1.3-0.0.12.ALL-vmware.ova
 /software/f5/Vagrantfile
+dg2.json

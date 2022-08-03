@@ -64,7 +64,7 @@ exclude = '''
 '''
 
 [tool.flakehell]
-exclude = ["README.rst", "README.md", ".eggs", ".tox", "build",".venv", ".agent"]
+exclude = ["README.rst", "README.md", ".eggs", ".tox", "build",".venv", ".agent", 'tests/test_explore_api.py']
 include = ["src", "tests"]
 format = "colored"
 max_line_length = 120

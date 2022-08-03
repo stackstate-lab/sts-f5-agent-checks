@@ -1,11 +1,12 @@
 import re
 from logging import Logger
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 import pydash.strings
 import requests
 from requests.adapters import HTTPAdapter
 from requests.structures import CaseInsensitiveDict
+from stackstate_etl.model.factory import TopologyFactory
 from sts_f5_impl.model.instance import F5Spec
 from urllib3.util import Retry
 
@@ -87,7 +88,7 @@ class F5Client(object):
         self.spec.url = pydash.strings.ensure_ends_with(spec.url, "/")
         self._session = self._init_session(spec)
         self._rules: Dict[str, str] = {}
-        self._data_groups: Dict[str, Dict[str, str]] = {}
+        self._data_groups: Dict[str, Tuple[str, Dict[str, str]]] = {}
 
     @staticmethod
     def get_ip_from_destination(destination: str) -> str:
@@ -116,7 +117,10 @@ class F5Client(object):
         return result
 
     def get_pools_from_switch_statement_irule(self, rule_name: str) -> List[Dict[str, Optional[str]]]:
-        irule = self.get_rule(rule_name)
+        return self._get_pools_from_switch_statement_irule(self.get_rule(rule_name))
+
+    @staticmethod
+    def _get_pools_from_switch_statement_irule(irule: str) -> List[Dict[str, Optional[str]]]:
         # strip out key words
         lines = []
         for line in irule.split("\n"):
@@ -132,12 +136,13 @@ class F5Client(object):
                 or line.startswith("HTTP::redirect")
                 or line.startswith("persist")
                 or line.startswith("set ")
+                or line.startswith("set ")
             ):
                 continue
             lines.append(line)
 
-        one_line_block = re.compile('("/[A-Za-z0-9-*/_]*".*{)(.*)}')
-        start_block = re.compile('"(/[A-Za-z0-9-*/_]*)".*{')
+        one_line_block = re.compile('("/[A-Za-z0-9-*/_?]*".*{)(.*)}')
+        start_block = re.compile('"(/[A-Za-z0-9-*/_?]*)".*{')
         blocks = []
         still_too_parse_lines = []
         for line in lines:
@@ -158,7 +163,10 @@ class F5Client(object):
                     current_block = []
             else:
                 if first_iteration:
-                    raise Exception(f"No start block found! Fist line was '{line}'")
+                    if line == "}":
+                        continue
+                    else:
+                        raise Exception(f"No start block found! Fist line was '{line}'")
             if line.strip() != "":
                 current_block.append(line)
         pools: List[Dict[str, Optional[str]]] = []
@@ -187,16 +195,59 @@ class F5Client(object):
                 self._rules[item["name"]] = item["apiAnonymous"]
         return self._rules[rule_name]
 
-    def get_data_group(self, dg_name: str) -> Dict[str, str]:
+    def get_data_group(self, dg_name: str) -> Tuple[str, Dict[str, str]]:
         if len(self._data_groups) == 0:
             url = self.get_ltm_type_url("data-group")
             data_groups_object = self._get_f5_object(f"{url}/internal", False, None)  # type: ignore
             for item in data_groups_object["items"]:
                 records = {}
-                for r in item["records"]:
+                for r in item.get("records", []):
                     records[r["name"]] = r["data"]
-                self._data_groups[item["name"]] = records
+                self._data_groups[item["name"]] = (item["partition"], records)
+        if dg_name not in self._data_groups:
+            self.log.error(f"Datagroup name {dg_name} not found.")
+            empty_dict: Tuple[str, Dict[str, str]] = ("Common", {})
+            return empty_dict
         return self._data_groups[dg_name]
+
+    def process_data_group_proxypass_details(
+        self, dg_name: str, vs_uid: str, host_name: str, rule: str, vip: str, factory: TopologyFactory
+    ):
+        dg_tuple = self.get_data_group(dg_name)
+        partition = dg_tuple[0]
+        records = dg_tuple[1]
+        for key, value in records.items():
+            if key.startswith(host_name):
+                value_parts = value.split(" ")
+                if len(value_parts) != 2:
+                    self.log.error(
+                        "Expected 2 parts in value '%s' for key '%s' in data group '%s' " % (value, key, dg_name)
+                    )
+                    continue
+                pool_name = value_parts[1]
+                if not pool_name.startswith("/Common/"):
+                    pool_name = pydash.strings.ensure_starts_with(pool_name, "/%s/" % partition)
+                pool_name.replace("//", "/")
+                pool_uid = "urn:f5:pool:/%s" % pool_name
+                if not factory.component_exists(pool_uid):
+                    self.log.error(
+                        "Expected to find pool %s in rule %s for host %s for vip %s. Ignoring..."
+                        % (pool_uid, rule, host_name, vip)
+                    )
+                else:
+                    pool_component = factory.get_component(pool_uid)
+                    pool_component.properties.add_label_kv("rule", rule)
+                    pool_component.properties.add_label_kv("clientside", key)
+                    pool_component.properties.add_label_kv("serverside", value_parts[0])
+                    if not factory.component_exists(vs_uid):
+                        self.log.error(
+                            "Expected to find virtual server %s in rule %s for host %s for vip %s. Ignoring..."
+                            % (vs_uid, rule, host_name, vip)
+                        )
+                        return
+                    vs_component = factory.get_component(vs_uid)
+                    if not factory.relation_exists(vs_component.uid, pool_component.uid):
+                        factory.add_relation(vs_component.uid, pool_uid)
 
     def get_ltm_object(
         self, object_type: str, expand_subcollections: bool = False, params: Dict[str, Any] = None
