@@ -244,7 +244,7 @@ class F5Client(object):
                     serverside_component.set_type("virtual-server")
                     serverside_component.set_name(serverside_name)
                     serverside_component.properties.layer = "Virtual Servers"
-                    serverside_component.properties.layer = "F5"
+                    serverside_component.properties.domain = "F5"
                     factory.add_component(serverside_component)
 
                 if not factory.component_exists(pool_uid):
