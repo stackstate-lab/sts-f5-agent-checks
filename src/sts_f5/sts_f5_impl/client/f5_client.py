@@ -143,7 +143,9 @@ class F5Client(object):
             lines.append(line)
 
         one_line_block = re.compile('("/[A-Za-z0-9-*/_?]*".*{)(.*)}')
+        one_line_default_block = re.compile('(default.*{)(.*)}')
         start_block = re.compile('"(/[A-Za-z0-9-*/_?]*)".*{')
+        default_start_block = re.compile('default.*{')
         blocks = []
         still_too_parse_lines = []
         for line in lines:
@@ -151,13 +153,17 @@ class F5Client(object):
             if match:
                 blocks.append([match.group(1).strip(), match.group(2).strip(), "}"])
             else:
-                still_too_parse_lines.append(line)
+                match = one_line_default_block.match(line)
+                if match:
+                    blocks.append([match.group(1).strip(), match.group(2).strip(), "}"])
+                else:
+                    still_too_parse_lines.append(line)
 
         current_block: List[str] = []
         first_iteration = True
         while len(still_too_parse_lines) > 0:
             line = still_too_parse_lines.pop(0)
-            if start_block.match(line):
+            if start_block.match(line) or default_start_block.match(line):
                 first_iteration = False
                 if current_block:
                     blocks.append(current_block)

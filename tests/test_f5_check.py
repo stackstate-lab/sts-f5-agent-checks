@@ -5,6 +5,7 @@ from typing import List, Dict, Any
 from sts_f5_impl.model.instance import InstanceInfo
 from sts_f5_impl.client import F5Client
 from f5 import F5Check
+from stackstate_etl.model.factory import TopologyFactory
 
 from stackstate_checks.stubs import topology, health, aggregator
 import yaml
@@ -28,6 +29,26 @@ def test_check(m: requests_mock.Mocker = None):
     check._init_health_api()
 
     _setup_request_mocks(instance, m)
+
+    f5 = F5Client(instance.f5, logger)
+    result = F5Client._get_pools_from_switch_statement_irule(irule)
+    print("\n%s" % result)
+
+    factory = TopologyFactory()
+    with open(f"tests/resources/responses/data_group_internal.json") as f:
+        dg2 = json.load(f)
+    for item in dg2["items"]:
+        if item["name"].startswith("ProxyPass"):
+            vip_name = item["name"][9:]
+            host_name = vip_name.split("_")[0]
+            f5.process_data_group_proxypass_details(
+                item["name"],
+                "vs_uid",
+                host_name,
+                "rule1",
+                vip_name,
+                factory,
+            )
 
     check.check(instance)
     stream = {"urn": "urn:health:f5:f5_health", "sub_stream": ""}
@@ -71,7 +92,7 @@ def _setup_request_mocks(instance, m):
         m.register_uri(method, url, json=response(object_type))
         m.register_uri(method, f"{url}/stats", json=response(f"{object_type}_stats"))
 
-    m.register_uri("GET", f"{instance.f5.url}mgmt/tm/ltm/data-group/internal", json=response("data_group_internal"))
+    m.register_uri("GET", f"{instance.f5.url}mgmt/tm/ltm/data-group/internal", json=response("dg2"))
 
     endpoints = [
         ("GET", "interface", "net"),
@@ -120,3 +141,25 @@ def assert_relation(relations: List[dict], sid: str, tid: str) -> Dict[str, Any]
     )
     assert relation is not None, f"Expected to find relation {sid}->{tid}"
     return relation
+
+irule = """
+        when HTTP_REQUEST {
+         if  { [HTTP::host] starts_with "metaq.crm.orange.intra" } {
+          #log local0. "[IP::client_addr] used [HTTP::host] and requested: [HTTP::uri] -- metaqDan";
+          switch -glob -- [string tolower [HTTP::uri]] {
+           "/metaq/*" { pool /CRM/sync/chatMetaQ_pool }
+           "/metaq*" { pool /CRM/sync/chatMetaQ_pool }
+           "/" { pool /CRM/sync/chatMetaQ_pool }
+           default {}
+           default { pool /CRM/sync/aac_pool }
+           default {
+                if { [HTTP::uri] equals "/" } {
+                  #log local0. "Redirecting [IP::client_addr] used [HTTP::host] and requested: [HTTP::uri]"
+                  HTTP::redirect "http://[HTTP::host]/apia"
+                }
+                pool /CRM/sync/ApiaJboss7_pool
+            }
+          }
+         }
+        }
+    """

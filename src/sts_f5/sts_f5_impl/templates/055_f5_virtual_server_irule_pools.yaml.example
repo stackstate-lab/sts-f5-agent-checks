@@ -17,7 +17,7 @@ etl:
               value_parts = value.split(" ")
               if len(value_parts) != 3:
                 raise Exception("Expected 3 parts in value '%s' for key '%s' in data group '%s' " % (value, key, data_group_name))
-              pool_uid = "urn:f5:pool:/%s" % values_parts[1])
+              pool_uid = "urn:f5:pool:/%s" % values_parts[1]
               if not factory.component_exists(pool_uid):
                 log.error("Expected to find pool %s. Ignoring..." % pool_uid)
                 continue
