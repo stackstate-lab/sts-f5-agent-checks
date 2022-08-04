@@ -7,6 +7,7 @@ import requests
 from requests.adapters import HTTPAdapter
 from requests.structures import CaseInsensitiveDict
 from stackstate_etl.model.factory import TopologyFactory
+from stackstate_etl.model.stackstate import Component
 from sts_f5_impl.model.instance import F5Spec
 from urllib3.util import Retry
 
@@ -229,6 +230,17 @@ class F5Client(object):
                     pool_name = pydash.strings.ensure_starts_with(pool_name, "/%s/" % partition)
                 pool_name.replace("//", "/")
                 pool_uid = "urn:f5:pool:/%s" % pool_name
+                serverside_name = value_parts[0].split("/")[0]
+                serverside_uid = factory.get_uid("host", "virtual:server", serverside_name)
+                if not factory.component_exists(serverside_uid):
+                    serverside_component = Component()
+                    serverside_component.uid = serverside_uid
+                    serverside_component.set_type("virtual-server")
+                    serverside_component.set_name(serverside_name)
+                    serverside_component.properties.layer = "Virtual Servers"
+                    serverside_component.properties.layer = "F5"
+                    factory.add_component(serverside_component)
+
                 if not factory.component_exists(pool_uid):
                     self.log.error(
                         "Expected to find pool %s in rule %s for host %s for vip %s. Ignoring..."
@@ -237,8 +249,11 @@ class F5Client(object):
                 else:
                     pool_component = factory.get_component(pool_uid)
                     pool_component.properties.add_label_kv("rule", rule)
-                    pool_component.properties.add_label_kv("clientside", key)
-                    pool_component.properties.add_label_kv("serverside", value_parts[0])
+                    # pool_component.properties.add_label_kv("clientside", key)
+                    # pool_component.properties.add_label_kv("serverside", value_parts[0])
+                    if not factory.relation_exists(pool_uid, serverside_uid):
+                        factory.add_relation(pool_uid, serverside_uid)
+
                     if not factory.component_exists(vs_uid):
                         self.log.error(
                             "Expected to find virtual server %s in rule %s for host %s for vip %s. Ignoring..."
