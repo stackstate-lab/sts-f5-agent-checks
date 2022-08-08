@@ -123,6 +123,8 @@ class F5Client(object):
     @staticmethod
     def _get_pools_from_switch_statement_irule(irule: str) -> List[Dict[str, Optional[str]]]:
         # strip out key words
+        if "switch" not in irule:
+            return []
         lines = []
         for line in irule.split("\n"):
             line = line.strip()
@@ -130,6 +132,7 @@ class F5Client(object):
                 line == ""
                 or line.startswith("#")
                 or line.startswith("if ")
+                or line.startswith("elseif ")
                 or line.startswith("switch ")
                 or line.startswith("when ")
                 or line.startswith("HTTP::uri")
@@ -143,9 +146,9 @@ class F5Client(object):
             lines.append(line)
 
         one_line_block = re.compile('("/[A-Za-z0-9-*/_?]*".*{)(.*)}')
-        one_line_default_block = re.compile('(default.*{)(.*)}')
+        one_line_default_block = re.compile("(default.*{)(.*)}")
         start_block = re.compile('"(/[A-Za-z0-9-*/_?]*)".*{')
-        default_start_block = re.compile('default.*{')
+        default_start_block = re.compile("default.*{")
         blocks = []
         still_too_parse_lines = []
         for line in lines:
@@ -241,6 +244,7 @@ class F5Client(object):
                 if not factory.component_exists(serverside_uid):
                     serverside_component = Component()
                     serverside_component.uid = serverside_uid
+                    serverside_component.properties.add_identifier(serverside_uid)
                     serverside_component.set_type("virtual-server")
                     serverside_component.set_name(serverside_name)
                     serverside_component.properties.layer = "Virtual Servers"

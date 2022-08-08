@@ -35,7 +35,7 @@ def test_check(m: requests_mock.Mocker = None):
     print("\n%s" % result)
 
     factory = TopologyFactory()
-    with open(f"tests/resources/responses/data_group_internal.json") as f:
+    with open("tests/resources/responses/data_group_internal.json") as f:
         dg2 = json.load(f)
     for item in dg2["items"]:
         if item["name"].startswith("ProxyPass"):
@@ -141,6 +141,7 @@ def assert_relation(relations: List[dict], sid: str, tid: str) -> Dict[str, Any]
     )
     assert relation is not None, f"Expected to find relation {sid}->{tid}"
     return relation
+
 
 irule = """
         when HTTP_REQUEST {
