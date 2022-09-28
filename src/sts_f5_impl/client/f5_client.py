@@ -8,8 +8,9 @@ from requests.adapters import HTTPAdapter
 from requests.structures import CaseInsensitiveDict
 from stackstate_etl.model.factory import TopologyFactory
 from stackstate_etl.model.stackstate import Component
-from sts_f5_impl.model.instance import F5Spec
 from urllib3.util import Retry
+
+from sts_f5_impl.model.instance import F5Spec
 
 CM_OBJECTS = ["cert", "device", "device-group", "key", "traffic-group", "trust-domain"]
 
@@ -128,19 +129,20 @@ class F5Client(object):
         lines = []
         for line in irule.split("\n"):
             line = line.strip()
+
             if (
                 line == ""
-                or line.startswith("#")
-                or line.startswith("if ")
-                or line.startswith("elseif ")
-                or line.startswith("switch ")
-                or line.startswith("when ")
-                or line.startswith("HTTP::uri")
-                or line.startswith("[HTTP::uri")
-                or line.startswith("HTTP::redirect")
-                or line.startswith("persist")
-                or line.startswith("set ")
-                or line.startswith("set ")
+                or line.startswith("#")  # noqa: W503
+                or line.startswith("if ")  # noqa: W503
+                or line.startswith("elseif ")  # noqa: W503
+                or line.startswith("switch ")  # noqa: W503
+                or line.startswith("when ")  # noqa: W503
+                or line.startswith("HTTP::uri")  # noqa: W503
+                or line.startswith("[HTTP::uri")  # noqa: W503
+                or line.startswith("HTTP::redirect")  # noqa: W503
+                or line.startswith("persist")  # noqa: W503
+                or line.startswith("set ")  # noqa: W503
+                or line.startswith("set ")  # noqa: W503
             ):
                 continue
             lines.append(line)

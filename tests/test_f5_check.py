@@ -5,7 +5,6 @@ from typing import List, Dict, Any
 from sts_f5_impl.model.instance import InstanceInfo
 from sts_f5_impl.client import F5Client
 from f5 import F5Check
-from stackstate_etl.model.factory import TopologyFactory
 
 from stackstate_checks.stubs import topology, health, aggregator
 import yaml
@@ -30,25 +29,8 @@ def test_check(m: requests_mock.Mocker = None):
 
     _setup_request_mocks(instance, m)
 
-    f5 = F5Client(instance.f5, logger)
     result = F5Client._get_pools_from_switch_statement_irule(irule)
     print("\n%s" % result)
-
-    factory = TopologyFactory()
-    with open("tests/resources/responses/data_group_internal.json") as f:
-        dg2 = json.load(f)
-    for item in dg2["items"]:
-        if item["name"].startswith("ProxyPass"):
-            vip_name = item["name"][9:]
-            host_name = vip_name.split("_")[0]
-            f5.process_data_group_proxypass_details(
-                item["name"],
-                "vs_uid",
-                host_name,
-                "rule1",
-                vip_name,
-                factory,
-            )
 
     check.check(instance)
     stream = {"urn": "urn:health:f5:f5_health", "sub_stream": ""}
@@ -58,19 +40,10 @@ def test_check(m: requests_mock.Mocker = None):
     snapshot = topology.get_snapshot("")
     components = snapshot["components"]
     relations = snapshot["relations"]
-    assert len(components) == 21, "Number of Components does not match"
-    assert len(relations) == 18, "Number of Relations does not match"
+    assert len(components) == 23, "Number of Components does not match"
+    assert len(relations) == 20, "Number of Relations does not match"
     assert len(health_check_states) == 7, "Number of Health does not match"
     assert len(metric_names) == 3, "Number of Metrics does not match"
-
-    # host_uid = "urn:host:/karbon-stackstate-c9a026-k8s-master-0"
-    # k8s_cluster_uid = "urn:cluster:/kubernetes:stackstate"
-    # k8s_cluster_uid = "urn:cluster:/kubernetes:stackstate"
-    # host_component = assert_component(components, host_uid)
-    # assert_component(components, k8s_cluster_uid)
-    # assert_relation(relations, k8s_cluster_uid, host_uid)
-    #
-    # assert host_component["data"]["custom_properties"]["ipv4_address"] == "10.55.90.119"
 
 
 def _setup_request_mocks(instance, m):
@@ -115,8 +88,8 @@ def _setup_request_mocks(instance, m):
 
 
 def setup_test_instance() -> Dict[str, Any]:
-    with open("tests/resources/conf.d/f5.d/conf.yaml.example") as f:
-        config = yaml.load(f)
+    with open("src/data/conf.d/f5.d/conf.yaml.example") as f:
+        config = yaml.safe_load(f)
         instance_dict = config["instances"][0]
     return instance_dict
 

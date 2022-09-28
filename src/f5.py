@@ -1,8 +1,13 @@
 from six import PY3
-from stackstate_checks.base import (AgentCheck, ConfigurationError,
-                                    HealthStream, HealthStreamUrn,
-                                    TopologyInstance)
+from stackstate_checks.base import (
+    AgentCheck,
+    ConfigurationError,
+    HealthStream,
+    HealthStreamUrn,
+    TopologyInstance,
+)
 from stackstate_etl_check_processor import AgentProcessor
+
 from sts_f5_impl.model.instance import InstanceInfo
 
 

@@ -1,0 +1,20 @@
+{
+  "python.autoComplete.extraPaths": [
+    "${workspaceFolder}/__pypackages__/3.9/lib",
+    "${workspaceFolder}/src"
+  ],
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/__pypackages__/3.9/lib"
+  ],
+  "python.testing.pytestArgs": [
+    "tests",
+    "-s",
+    "-p",
+    "no:logging"
+  ],
+  "python.testing.pytestPath": "${workspaceFolder}/__pypackages__/3.9/bin/pytest",
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true,
+  "python.envFile": "${workspaceFolder}/.env"
+
+}

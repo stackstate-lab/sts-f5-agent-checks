@@ -1,54 +1,114 @@
-[tool.poetry]
-name = "sts_f5"
-version = "0.1.0"
+[project]
+name = "f5"
+version = "0.1.1"
 description = "StackState integration with F5 Big Ip via Agent Checks"
-authors = ["Ravan Naidoo <rnaidoo@stackstate.com>"]
+authors = [
+    {name = "Ravan Naidoo", email = "rnaidoo@stackstate.com"},
+]
 
-[tool.poetry.dependencies]
-python = ">=2.7,<3.0.0 || >=3.7.0"
-requests = "=2.25.0"
-stackstate-etl-agent-check = {git = "git@github.com:stackstate-lab/stackstate-etl-agent-check.git", rev = "master"}
+requires-python = ">=3.9,<3.10"
+license = {text = "MIT"}
 
-[tool.poetry.dev-dependencies]
-pytest = "*"
-tox = "^3.22.0"
-# StackState Agent Integration dev deps
-prometheus-client = "^0.3.0"
-Deprecated = "^1.2.11"
-pytest-sugar = "^0.9.4"
-colorama = "^0.4.1"
-tabulate = "^0.8.9"
-requests-mock = "^1.9.3"
+#######################################################################################################################
+# Prod Dependencies
+#######################################################################################################################
 
-[tool.tox]
-legacy_tox_ini = """
-[tox]
-requires =
-    tox-py-backwards
-isolated_build = true
-envlist = py27
-[testenv]
-whitelist_externals = poetry
-poetry_add_dev_dependencies = True
-deps =
-    -e git+https://github.com/StackVista/stackstate-agent-integrations.git@1.20.0#egg=stackstate_checks_base&subdirectory=stackstate_checks_base
-    pytest
-    pytest-sugar
-    prometheus-client
-    six
-    Deprecated
-    requests
-    enum34
-py_backwards = true
-commands =
-    pip uninstall -y f5
-    poetry install
-    poetry run pytest -W ignore::DeprecationWarning
-"""
+dependencies = [
+]
+
+[build-system]
+requires = ["pdm-pep517>=1.0.0"]
+build-backend = "pdm.pep517.api"
+
+#######################################################################################################################
+# Optional Prod Dependencies
+#######################################################################################################################
+
+[project.optional-dependencies]
+
+#######################################################################################################################
+# Dev Dependencies
+#######################################################################################################################
+
+[tool]
+[tool.pdm]
+
+#######################################################################################################################
+# Dev Dependencies
+#######################################################################################################################
+
+[tool.pdm.dev-dependencies]
+
+etl = [
+    "stackstate-etl @ git+ssh://git@github.com/stackstate-lab/stackstate-etl.git@master",
+    "stackstate-etl-agent-check @ git+ssh://git@github.com/stackstate-lab/stackstate-etl-agent-check.git@master",
+]
+
+
+dev = [
+    "py-backwards>=0.7",
+    "pytest>=7.1.3",
+    "pytest-sugar>=0.9.5",
+    "toml>=0.10.2",
+    "requests-mock>=1.9.3",
+    "pydash>=5.1.1",
+]
+format = [
+    "flakehell>=0.9.0",
+    "flake8==3.9.0",
+    "black>=22.8.0",
+    "mypy>=0.971",
+    "isort>=5.10.1",
+]
+checks_base = [
+    "pyyaml>=6.0",
+    "schematics>=2.1.1",
+    "deprecated>=1.2.13",
+    "prometheus-client>=0.14.1",
+    "requests>=2.28.1",
+]
+
+#######################################################################################################################
+# Scripts
+#######################################################################################################################
+
+[tool.pdm.scripts]
+post_install = "pip install \"git+https://github.com/StackVista/stackstate-agent-integrations.git@1.22.0#egg=stackstate_checks_base&subdirectory=stackstate_checks_base\" -t \"./__pypackages__/3.9/lib\" --src \"./__pypackages__/3.9/src\" --upgrade"
+pre_build = {composite = ["format", "test", "package"]}
+serve = {call = "tasks.agent:run_agent"}
+check = {call = "tasks.agent:run_check('f5')"}
+format = {composite = ["isort", "black", "flakehell", "mypy"]}
+test = "pytest -s -p no:logging ./tests"
+clean = "rm -rf build dist"
+
+#######################################################################################################################
+# Helper Scripts
+#######################################################################################################################
+_.env_file = ".sts.env"
+black = "black src tests"
+isort = "isort src"
+flakehell = "flakehell lint ./src/ ./tests/"
+mypy = "mypy src"
+package = {call = "tasks.agent:perform_dist"}
+buildAgent = {call = "tasks.agent:build_agent"}
+cleanAgent = {call = "tasks.agent:clean_agent"}
+
+#######################################################################################################################
+# iSort
+#######################################################################################################################
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+src_paths=["src", "tests"]
+
+#######################################################################################################################
+# Black
+#######################################################################################################################
 
 [tool.black]
 line-length = 120
-target-version = ['py27']
+target-version = ['py37']
 include = '\.pyi?$'
 exclude = '''
 /(
@@ -63,8 +123,12 @@ exclude = '''
 )/
 '''
 
+#######################################################################################################################
+# FlakeHell
+#######################################################################################################################
+
 [tool.flakehell]
-exclude = ["README.rst", "README.md", ".eggs", ".tox", "build",".venv", ".agent", 'tests/test_explore_api.py']
+exclude = ["README.rst", "README.md", ".eggs", ".tox", "build",".venv", "tests/test_explore_api.py"]
 include = ["src", "tests"]
 format = "colored"
 max_line_length = 120
@@ -76,10 +140,71 @@ extended_default_ignore=[]
 "*" = [
     "+*",
     "-E203",
-    "-W503"
-    ]
+]
 
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+#######################################################################################################################
+# PyTest
+#######################################################################################################################
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+filterwarnings = [
+    "error",
+    "ignore::schematics.deprecated.SchematicsDeprecationWarning"
+]
+pythonpath = [
+    "src"
+]
+testpaths = [
+    "tests",
+    "integration",
+]
+
+#######################################################################################################################
+# MyPy
+#######################################################################################################################
+
+[tool.mypy]
+python_version = 3.7
+exclude = [
+    '.*test_explore_apis\.py'
+]
+
+[[tool.mypy.overrides]]
+module = "schematics.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "stackstate_checks.base.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "requests.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "six.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "yaml.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "stackstate_etl.model.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "stackstate_etl_check_processor.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "urllib3.util.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "pydash.*"
+ignore_missing_imports = true
+
+
 
