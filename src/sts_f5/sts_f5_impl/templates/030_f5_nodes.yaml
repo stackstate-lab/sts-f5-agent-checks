@@ -3,19 +3,19 @@ etl:
     - name: f5_hosts
       query: "f5.get_ltm_object('node')['items']"
       template_refs:
+        - f5_node_template
         - f5_host_template
         - f5_host_health_template
   template:
     components:
-      - name: f5_host_template
+      - name: f5_node_template
         spec:
           name: "$.name"
           type: "f5-node"
           uid: "|uid('f5', 'node', item['fullPath'])"
           layer: "F5 Nodes"
-          identifiers:
-            - "|'urn:host:/%s' % item['name']"
-            - "|'urn:host:/%s' % item['address']"
+          relations:
+            - "|'urn:host:/%s' % item['name'].split('_')[0]"
           labels:
             - "|'address:%s' % item['address']"
           custom_properties:
@@ -23,6 +23,13 @@ etl:
             fullPath: "$.fullPath"
             address: "$.address"
             description: "$.description"
+      - name: f5_host_template
+        selector: "not factory.component_exists('urn:host:/%s' % item['name'].split('_')[0])"
+        spec:
+          name: "|item['name'].split('_')[0]"
+          type: "host"
+          uid: "|'urn:host:/%s' % item['name'].split('_')[0]"
+          layer: "Machines"
     health:
       - name: f5_host_health_template
         spec:

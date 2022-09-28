@@ -49,8 +49,8 @@ etl:
         session["process_reverse_proxypass_rule"] = process_reverse_proxypass_rule
 
   queries:
-    - name: f5_virtual_server_irule_pools
-      query: "f5.get_ltm_object('virtual')['items']"
+      name: f5_virtual_server_irule_pools
+      query: "|f5.get_ltm_object('virtual')['items']"
       template_refs: []
       processor: |
         rules = item.get("rules", [])
